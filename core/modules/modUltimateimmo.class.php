@@ -1191,11 +1191,11 @@ class modUltimateimmo extends DolibarrModules
 		//$result4=$extrafields->addExtraField('myattr4', "New Attr 4 label", 'select',  1,  3, 'thirdparty',   0, 1, '', array('options'=>array('code1'=>'Val1','code2'=>'Val2','code3'=>'Val3')), 1 '', 0, 0, '', '', 'ultimateimmo@ultimateimmo', '$conf->ultimateimmo->enabled');
 		//$result5=$extrafields->addExtraField('myattr5', "New Attr 5 label", 'text',    1, 10, 'user',         0, 0, '', '', 1, '', 0, 0, '', '', 'ultimateimmo@ultimateimmo', '$conf->ultimateimmo->enabled');
 
-		$sql = array(
-			"INSERT IGNORE INTO " . MAIN_DB_PREFIX . "c_ultimateimmo_immoreceipt_status (rowid, code, label, active) VALUES
-					(0, 'STATUS_DRAFT', '" . $langs->trans("Draft") . "', 1),
-					(1, 'STATUS_VALIDATED', '" . $langs->trans("Validate") . "', 1);"
-		);
+		// $sql = array(
+		// 	"INSERT IGNORE INTO " . MAIN_DB_PREFIX . "c_ultimateimmo_immoreceipt_status (rowid, code, label, active) VALUES
+		// 			(0, 'STATUS_DRAFT', '" . $langs->trans("Draft") . "', 1),
+		// 			(1, 'STATUS_VALIDATED', '" . $langs->trans("Validate") . "', 1);"
+		// );
 
 		// Document templates
 		$moduledir = 'ultimateimmo';
@@ -1220,7 +1220,7 @@ class modUltimateimmo extends DolibarrModules
 					}
 				}
 
-				$sql = array_merge($sql, array(
+				$sql = array(
 					"DELETE FROM " . MAIN_DB_PREFIX . "document_model WHERE nom = 'standard_" . strtolower($myTmpObjectKey) . "' AND type = '" . strtolower($myTmpObjectKey) . "' AND entity = " . $conf->entity,
 					"INSERT INTO " . MAIN_DB_PREFIX . "document_model (nom, type, entity) VALUES('standard_" . strtolower($myTmpObjectKey) . "','" . strtolower($myTmpObjectKey) . "'," . $conf->entity . ")",
 					"DELETE FROM " . MAIN_DB_PREFIX . "document_model WHERE nom = 'generic_" . strtolower($myTmpObjectKey) . "_odt' AND type = '" . strtolower($myTmpObjectKey) . "' AND entity = " . $conf->entity,
