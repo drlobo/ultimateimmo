@@ -378,7 +378,7 @@ class ImmoOwner extends CommonObjectUltimateImmo
 	 * @param	string	$morewhere		More SQL filters (' AND ...')
 	 * @return 	int         			<0 if KO, 0 if not found, >0 if OK
 	 */
-	public function fetchCommon($id, $ref = null, $morewhere = '')
+	public function fetchCommon($id, $ref = null, $morewhere = '', $noextrafields = 0)
 	{
 		if (empty($id) && empty($ref)) return false;
 
