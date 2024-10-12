@@ -360,18 +360,17 @@ class ImmoOwner extends CommonObjectUltimateImmo
         }
     }
 
-    /**
-     * Load object in memory from the database
-     *
-     * @param	int    $id				Id object
-     * @param	string $ref				Ref
-     * @param	string	$morewhere		More SQL filters (' AND ...')
-     * @return 	int         			<0 if KO, 0 if not found, >0 if OK
-     */
-    public function fetchCommon($id, $ref = null, $morewhere = '', $noextrafields = 0)
-    {
-        if (empty($id) && empty($ref))
-            return false;
+	/**
+	 * Load object in memory from the database
+	 *
+	 * @param	int    $id				Id object
+	 * @param	string $ref				Ref
+	 * @param	string	$morewhere		More SQL filters (' AND ...')
+	 * @return 	int         			<0 if KO, 0 if not found, >0 if OK
+	 */
+	public function fetchCommon($id, $ref = null, $morewhere = '')
+	{
+		if (empty($id) && empty($ref)) return false;
 
         global $langs;
 
