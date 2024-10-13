@@ -102,10 +102,10 @@ include DOL_DOCUMENT_ROOT . '/core/actions_fetchobject.inc.php';  // Must be inc
 //$result = restrictedArea($user, 'mymodule', $object->id, '', '', 'fk_soc', 'rowid', $isdraft);
 
 
-$sql = 'SELECT sp.rowid as contactId, u.rowid as userId FROM ' . MAIN_DB_PREFIX . 'socpeople as sp ';
-$sql .= ' LEFT JOIN ' . MAIN_DB_PREFIX . 'user as u ON u.fk_socpeople=sp.rowid';
-$sql .= ' WHERE sp.fk_soc=' . (int)$object->fk_soc;
-$sql .= ' AND sp.email="' . $db->escape($object->email) . '"';
+$sql = "SELECT sp.rowid as contactId, u.rowid as userId FROM " . MAIN_DB_PREFIX . "socpeople as sp ";
+$sql .= " LEFT JOIN " . MAIN_DB_PREFIX . "user as u ON u.fk_socpeople=sp.rowid";
+$sql .= " WHERE sp.fk_soc=" . (int)$object->fk_soc;
+$sql .= " AND sp.email='" . $db->escape($object->email) . "'";
 $resql = $db->query($sql);
 if ($resql < 0) {
 	setEventMessages($db->lasterror, null, 'errors');
