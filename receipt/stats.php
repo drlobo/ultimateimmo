@@ -140,7 +140,7 @@ foreach ($months_list as $month_name) {
 }
 print '<td align="right"><b>' . $langs->trans("Total") . '</b></td></tr>';
 
-$sql = "SELECT own.firstname AS Proprio";
+$sql = "SELECT ll.fk_owner AS Proprio";
 foreach ($months_list as $month_num => $month_name) {
 	$sql .= ', ROUND(SUM(case when MONTH(lo.date_echeance)=' . $month_num . ' then lo.rentamount else 0 end),2) AS month_' . $month_num;
 }
