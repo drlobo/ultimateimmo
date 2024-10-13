@@ -139,7 +139,7 @@ if (!empty($search['compteur_type_id'])) {
 	$sql .=" AND t.compteur_type_id=".(int) $search['compteur_type_id'];
 }
 if (!empty($search['year'])) {
-	$sql .=" AND YEAR(t.date_relever)=".(int) $search['year'];
+	$sql .=" AND EXTRACT(YEAR FROM t.date_relever)=".(int) $search['year'];
 }
 $sql .= $db->order('t.fk_immoproperty,date_relever');
 
