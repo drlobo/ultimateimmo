@@ -106,7 +106,7 @@ class ImmoRenter extends CommonObject
 		'firstname' => array('type' => 'varchar(255)', 'label' => 'Firstname', 'visible' => 1, 'enabled' => 1, 'position' => 65, 'showoncombobox'=>1, 'notnull' => -1, 'searchall' => 1,),
 		'lastname' => array('type' => 'varchar(255)', 'label' => 'Lastname', 'visible' => 1, 'enabled' => 1, 'position' => 70, 'showoncombobox'=>1, 'notnull' => -1, 'searchall' => 1,),
 		'email' => array('type' => 'varchar(255)', 'label' => 'Email', 'visible' => 1, 'enabled' => 1, 'position' => 75, 'notnull' => -1,),
-		'birth' => array('type' => 'date', 'label' => 'BirthDay', 'visible' => 1, 'enabled' => 1, 'position' => 80, 'notnull' => 1,),
+		'birth' => array('type' => 'date', 'label' => 'BirthDay', 'visible' => 1, 'enabled' => 1, 'position' => 80, 'notnull' => -1,),
 		'country_id' => array('type' => 'integer:Ccountry:core/class/ccountry.class.php', 'label' => 'ImmoCountry', 'enabled' => 1, 'visible' => 1, 'position' => 82, 'notnull' => -1,),
 		'town' => array('type' => 'varchar(255)', 'label' => 'BirthCountry', 'enabled' => 1, 'visible' => 1, 'position' => 83, 'notnull' => -1,),
 		'phone' => array('type' => 'varchar(30)', 'label' => 'Phone', 'visible' => -1, 'enabled' => 1, 'position' => 85, 'notnull' => -1,),
@@ -277,7 +277,6 @@ class ImmoRenter extends CommonObject
 		$fieldvalues = $this->setSaveQuery();
 
 		if (array_key_exists('date_creation', $fieldvalues) && empty($fieldvalues['date_creation'])) $fieldvalues['date_creation'] = $this->db->idate($now);
-		if (array_key_exists('birth', $fieldvalues) && empty($fieldvalues['birth'])) $fieldvalues['birth'] = $this->db->jdate($this->birth);
 		if (array_key_exists('fk_user_creat', $fieldvalues) && !($fieldvalues['fk_user_creat'] > 0)) $fieldvalues['fk_user_creat'] = $user->id;
 		unset($fieldvalues['rowid']);	// The field 'rowid' is reserved field name for autoincrement field so we don't need it into insert.
 		if (array_key_exists('ref', $fieldvalues)) $fieldvalues['ref'] = dol_string_nospecial($fieldvalues['ref']); // If field is a ref, we sanitize data
@@ -328,7 +327,6 @@ class ImmoRenter extends CommonObject
 
 		if (!$error) {
 			$this->id = $this->db->last_insert_id(MAIN_DB_PREFIX . $this->table_element);
-			$this->birth = $this->db->jdate($res->birth);
 		}
 
 		// If we have a field ref with a default value of (PROV)
@@ -658,7 +656,6 @@ class ImmoRenter extends CommonObject
 		$fieldvalues = $this->setSaveQuery();
 
 		if (array_key_exists('date_modification', $fieldvalues) && empty($fieldvalues['date_modification'])) $fieldvalues['date_modification'] = $this->db->idate($now);
-		if (array_key_exists('birth', $fieldvalues) && empty($fieldvalues['birth'])) $fieldvalues['birth'] = $this->db->jdate($object->birth);
 		if (array_key_exists('fk_user_modif', $fieldvalues) && !($fieldvalues['fk_user_modif'] > 0)) $fieldvalues['fk_user_modif'] = $user->id;
 		unset($fieldvalues['rowid']);	// The field 'rowid' is reserved field name for autoincrement field so we don't need it into update.
 		if (array_key_exists('ref', $fieldvalues)) $fieldvalues['ref'] = dol_string_nospecial($fieldvalues['ref']); // If field is a ref, we sanitize data
@@ -1358,6 +1355,38 @@ class ImmoRenter extends CommonObject
 		}
 
 		return $out;
+	}
+
+	/**
+	 *	Return full name (civility+' '+name+' '+lastname)
+	 *
+	 *	@param	Translate	$langs			Language object for translation of civility (used only if option is 1)
+	 *	@param	int			$option			0=No option, 1=Add civility
+	 * 	@param	int			$nameorder		-1=Auto, 0=Lastname+Firstname, 1=Firstname+Lastname, 2=Firstname, 3=Firstname if defined else lastname, 4=Lastname, 5=Lastname if defined else firstname
+	 * 	@param	int			$maxlen			Maximum length
+	 * 	@return	string						String with full name
+	 */
+	public function getFullName($langs, $option = 0, $nameorder = -1, $maxlen = 0)
+	{
+		//print "lastname=".$this->lastname." name=".$this->name." nom=".$this->nom."<br>\n";
+		$lastname = $this->lastname;
+		$firstname = $this->firstname;
+		if (empty($lastname)) {
+			$lastname = (isset($this->lastname) ? $this->lastname : (isset($this->name) ? $this->name : (isset($this->nom) ? $this->nom : (isset($this->societe) ? $this->societe : (isset($this->company) ? $this->company : '')))));
+		}
+
+		$ret = '';
+		if (!empty($option) && !empty($this->civility_code)) {
+			if ($langs->transnoentitiesnoconv("Civility".$this->civility_code) != "Civility".$this->civility_code) {
+				$ret .= $langs->transnoentitiesnoconv("Civility".$this->civility_code).' ';
+			} else {
+				$ret .= $this->civility_code.' ';
+			}
+		}
+
+		$ret .= dolGetFirstLastname($firstname, $lastname, $nameorder);
+
+		return dol_string_nohtmltag(dol_trunc($ret, $maxlen));
 	}
 
 }
