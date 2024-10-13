@@ -222,7 +222,7 @@ if (empty($user->id)) {
         $compteur           = new ImmoCompteur($db);
         $sql                = 'SELECT ';
         $sql                .= $compteur->getFieldList('compteur');
-        $sql                .= ',prop.label as local, ict.label as label_compteur, ict.rowid as typecounterid, YEAR(compteur.date_relever) as yearrelever';
+        $sql                .= ',prop.label as local, ict.label as label_compteur, ict.rowid as typecounterid, EXTRACT(YEAR FROM compteur.date_relever) as yearrelever';
         $sql                .= " FROM " . MAIN_DB_PREFIX . "ultimateimmo_immoreceipt as rec";
         $sql                .= " INNER JOIN " . MAIN_DB_PREFIX . "ultimateimmo_immorenter as loc ON loc.rowid = rec.fk_renter AND loc.rowid=" . (int) $renterId;
         $sql                .= " INNER JOIN " . MAIN_DB_PREFIX . "ultimateimmo_immoproperty as prop ON prop.rowid = rec.fk_property";
@@ -230,7 +230,7 @@ if (empty($user->id)) {
         $sql                .= " INNER JOIN " . MAIN_DB_PREFIX . "ultimateimmo_immocompteur as compteur ON compteur.fk_immoproperty=rec.fk_property";
         $sql                .= " INNER JOIN " . MAIN_DB_PREFIX . "c_ultimateimmo_immocompteur_type as ict ON ict.rowid=compteur.compteur_type_id";
         $sql                .= " WHERE 1=1";
-        $sql                .= " AND YEAR(compteur.date_relever)=YEAR(rec.date_echeance)";
+        $sql                .= " AND EXTRACT(YEAR FROM compteur.date_relever)=EXTRACT(YEAR FROM rec.date_echeance)";
         $sql                .= $db->order('rec.date_echeance', 'DESC');
         $resultDataCompteur = array();
 

@@ -134,7 +134,7 @@ class ImmoCost extends CommonObject
 								 'position' => 511, 'notnull' => -1, 'foreignkey' => 'llx_user.rowid',),
 		'import_key'    => array('type'     => 'varchar(14)', 'label' => 'ImportId', 'enabled' => 1, 'visible' => -2,
 								 'position' => 1000, 'notnull' => -1,),
-		'dispatch'      => array('type'     => 'smallint(8)', 'label' => 'Dispatch', 'enabled' => 1, 'visible' => -2,
+		'dispatch'      => array('type'     => 'smallint', 'label' => 'Dispatch', 'enabled' => 1, 'visible' => -2,
 								 'position' => 1000, 'notnull' => -1,),
 		'status'        => array('type'          => 'integer', 'label' => 'Status', 'enabled' => 1, 'visible' => 1,
 								 'position'      => 1000, 'notnull' => 1, 'index' => 1,
