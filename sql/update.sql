@@ -28,7 +28,7 @@ ALTER TABLE llx_ultimateimmo_immorent MODIFY COLUMN date_end date;
 ALTER TABLE llx_ultimateimmo_immorent MODIFY COLUMN date_next_rent date;
 ALTER TABLE llx_ultimateimmo_immorent MODIFY COLUMN date_last_regul date;
 ALTER TABLE llx_ultimateimmo_immorent ADD COLUMN date_last_regul_charge date after date_last_regul;
-ALTER TABLE llx_ultimateimmo_immocost_type CHANGE COLUMN fk_user_creat fk_user_create integer NOT NULL;
+ALTER TABLE llx_ultimateimmo_immocost_type MODIFY fk_user_creat fk_user_create integer NOT NULL;
 ALTER TABLE llx_ultimateimmo_immocost_type ADD CONSTRAINT llx_ultimateimmo_immocost_type_fk_user_creat FOREIGN KEY (fk_user_create) REFERENCES llx_user(rowid);
 ALTER TABLE llx_ultimateimmo_immocompteur ADD COLUMN compteur_type_id integer AFTER fk_immoproperty;
 
@@ -41,7 +41,7 @@ ALTER TABLE llx_ultimateimmo_building add fk_user_modif integer after fk_user_cr
 ALTER TABLE llx_ultimateimmo_immocost_type add active integer after status;
 ALTER TABLE llx_ultimateimmo_immocost_type add fk_user_creat integer NOT NULL integer after status;
 
-ALTER TABLE llx_ultimateimmo_immocost CHANGE COLUMN fk_user_create fk_user_creat integer;
+ALTER TABLE llx_ultimateimmo_immocost MODIFY fk_user_create fk_user_creat integer;
 
 ALTER TABLE llx_ultimateimmo_immoproperty ADD COLUMN section_cadastrale varchar(32) after country_id;
 ALTER TABLE llx_ultimateimmo_immoproperty ADD COLUMN parcelle_cadastrale varchar(32) after section_cadastrale;

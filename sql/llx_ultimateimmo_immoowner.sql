@@ -31,7 +31,7 @@ CREATE TABLE llx_ultimateimmo_immoowner(
 	fk_user_modif integer, 
 	import_key varchar(14), 
 	status integer NOT NULL, 
-	civility_id integer(3), 
+	civility_id integer, 
 	firstname varchar(255) NOT NULL, 
 	lastname varchar(255) NOT NULL,
 	address varchar(255),

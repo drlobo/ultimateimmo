@@ -36,7 +36,7 @@ CREATE TABLE llx_ultimateimmo_immocost(
 	fk_user_creat integer NOT NULL, 
 	fk_user_modif integer, 
 	import_key varchar(14), 
-	dispatch smallint(8),
+	dispatch smallint,
 	status integer NOT NULL
 	-- END MODULEBUILDER FIELDS
 ) ENGINE=innodb;
