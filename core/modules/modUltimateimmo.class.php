@@ -77,7 +77,7 @@ class modUltimateimmo extends DolibarrModules
 		$this->editor_url = implode(', &nbsp;', $editor_url);
 
 		// Possible values for version are: 'development', 'experimental', 'dolibarr', 'dolibarr_deprecated' or a version string like 'x.y.z'
-		$this->version = '15.0.0';
+		$this->version = '15.0.1';
 		// Key used in llx_const table to save module status enabled/disabled (where ULTIMATEIMMO is value of property name of module in uppercase)
 		$this->const_name = 'MAIN_MODULE_' . strtoupper($this->name);
 		// Name of image file used for this module.
@@ -1201,7 +1201,7 @@ class modUltimateimmo extends DolibarrModules
 		$moduledir = 'ultimateimmo';
 		$myTmpObjects = array();
 		$myTmpObjects['ImmoCompteur'] = array('includerefgeneration' => 0, 'includedocgeneration' => 0);
-
+		$sql = array();
 		foreach ($myTmpObjects as $myTmpObjectKey => $myTmpObjectArray) {
 			if ($myTmpObjectKey == 'ImmoCompteur') continue;
 			if ($myTmpObjectArray['includerefgeneration']) {
@@ -1225,7 +1225,7 @@ class modUltimateimmo extends DolibarrModules
 					"INSERT INTO " . MAIN_DB_PREFIX . "document_model (nom, type, entity) VALUES('standard_" . strtolower($myTmpObjectKey) . "','" . strtolower($myTmpObjectKey) . "'," . $conf->entity . ")",
 					"DELETE FROM " . MAIN_DB_PREFIX . "document_model WHERE nom = 'generic_" . strtolower($myTmpObjectKey) . "_odt' AND type = '" . strtolower($myTmpObjectKey) . "' AND entity = " . $conf->entity,
 					"INSERT INTO " . MAIN_DB_PREFIX . "document_model (nom, type, entity) VALUES('generic_" . strtolower($myTmpObjectKey) . "_odt', '" . strtolower($myTmpObjectKey) . "', " . $conf->entity . ")"
-				));
+				);
 			}
 		}
 
