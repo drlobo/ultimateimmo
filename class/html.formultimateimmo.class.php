@@ -345,7 +345,7 @@ class FormUltimateimmo extends Form
 		$object = new ImmoCompteur($this->db);
 		$dataYear=array();
 		$sql = 'SELECT DISTINCT EXTRACT(YEAR FROM date_relever) as yearrelever FROM ' . MAIN_DB_PREFIX . $object->table_element;
-		$sql .= ' ORDER BY date_relever DESC';
+		$sql .= ' ORDER BY yearrelever DESC';
 		$resql=$this->db->query($sql);
 
 		if ($resql) {
