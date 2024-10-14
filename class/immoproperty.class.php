@@ -266,10 +266,16 @@ class ImmoProperty extends CommonObject
 			}
 		}
 
-		// Translate some data
-		$this->fields['status']['arrayofkeyval'] = array(1 => $langs->trans('PropertyTypeStatusActive'), 9 => $langs->trans('PropertyTypeStatusCancel'));
-		$this->fields['juridique_id']['arrayofkeyval'] = array(1 => $langs->trans('MonoPropriete'), 2 => $langs->trans('Copropriete'));
-		$this->fields['datebuilt']['arrayofkeyval'] = array(1 => $langs->trans('DateBuilt1'), 2 => $langs->trans('DateBuilt2'), 3 => $langs->trans('DateBuilt3'), 4 => $langs->trans('DateBuilt4'), 5 => $langs->trans('DateBuilt5'));
+		// Translate some data of arrayofkeyval
+		if (is_object($langs)) {
+			foreach ($this->fields as $key => $val) {
+				if (isset($val['arrayofkeyval']) && is_array($val['arrayofkeyval'])) {
+					foreach ($val['arrayofkeyval'] as $key2 => $val2) {
+						$this->fields[$key]['arrayofkeyval'][$key2] = $langs->trans($val2);
+					}
+				}
+			}
+		}
 	}
 
 	/**

@@ -242,6 +242,7 @@ class ActionsUltimateimmo
     function addSearchEntry($parameters, $object, $action, $hookmanager)
     {
         global $user, $langs;
+		$search_boxvalue = GETPOST('search_all', 'aZ09');
         if ($user->rights->ultimateimmo->read) {
             if (in_array($parameters['currentcontext'], array('globalcard', 'searchform', 'leftblock'))) {  // do something only for the context 'somecontext1' or 'somecontext2'
                 $langs->load("ultimateimmo@ultimateimmo");

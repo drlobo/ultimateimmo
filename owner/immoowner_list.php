@@ -92,12 +92,9 @@ if (!$sortfield) $sortfield = "t." . key($object->fields);   // Set here default
 if (!$sortorder) $sortorder = "ASC";
 
 // Protection if external user
-$socid = 0;
-if ($user->societe_id > 0) {
-	//$socid = $user->societe_id;
+if ($user->fk_societe > 0) {
 	accessforbidden();
 }
-//$result = restrictedArea($user, 'ultimateimmo', $id,'');
 
 // Initialize array of search criterias
 $search_all = GETPOST('search_all', 'alphanohtml') ? trim(GETPOST('search_all', 'alphanohtml')) : trim(GETPOST('sall', 'alphanohtml'));
@@ -109,7 +106,7 @@ foreach ($object->fields as $key => $val) {
 // List of fields to search into when doing a "search in all"
 $fieldstosearchall = array();
 foreach ($object->fields as $key => $val) {
-	if ($val['searchall']) $fieldstosearchall['t.' . $key] = $val['label'];
+	if (!empty($val['searchall'])) $fieldstosearchall['t.' . $key] = $val['label'];
 }
 
 // Definition of fields for list
