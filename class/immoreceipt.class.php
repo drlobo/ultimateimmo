@@ -321,17 +321,13 @@ class ImmoReceipt extends CommonObject
 				unset($this->fields[$key]);
 			}
 		}
-
 		// Translate some data of arrayofkeyval
-		foreach ($this->fields as $key => $val) {
-			if (is_array($this->fields['status']['arrayofkeyval'])) {
-				foreach ($this->fields['status']['arrayofkeyval'] as $key2 => $val2) {
-					$this->fields['status']['arrayofkeyval'][$key2] = $langs->trans($val2);
-				}
-			}
-			if (is_array($this->fields['paye']['arrayofkeyval'])) {
-				foreach ($this->fields['paye']['arrayofkeyval'] as $key3 => $val3) {
-					$this->fields['paye']['arrayofkeyval'][$key3] = $langs->trans($val3);
+		if (is_object($langs)) {
+			foreach ($this->fields as $key => $val) {
+				if (isset($val['arrayofkeyval']) && is_array($val['arrayofkeyval'])) {
+					foreach ($val['arrayofkeyval'] as $key2 => $val2) {
+						$this->fields[$key]['arrayofkeyval'][$key2] = $langs->trans($val2);
+					}
 				}
 			}
 		}

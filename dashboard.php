@@ -141,8 +141,7 @@ if (GETPOST('addbox'))	// Add box (when submit is done from a form when ajax dis
 /*
  * View
  */
-
-if (! is_object($form)) $form=new Form($db);
+$form=new Form($db);
 
 // Translations
 $langs->loadLangs(array("admin", "ultimateimmo@gultimateimmo"));
@@ -156,12 +155,11 @@ $resultboxes = UltimateImmoGetBoxesArea($user, "0");    // Load $resultboxes (se
 $morehtmlright = $resultboxes['selectboxlist'];
 
 print load_fiche_titre($langs->trans("UltimateImmoDashboard"), $morehtmlright, 'ultimateimmo_minimized@ultimateimmo');
-print '<div class="dashboardBtnContainer">'.$button.'</div>';
 
 /*
  * Demo text
  */
-if ($conf->global->ULTIMATEIMMO_DEMO_ACTIVE == 1 && !empty($conf->global->ULTIMATEIMMO_DEMO_HOME)) {
+if (isset($conf->global->ULTIMATEIMMO_DEMO_ACTIVE) && $conf->global->ULTIMATEIMMO_DEMO_ACTIVE == 1 && !empty($conf->global->ULTIMATEIMMO_DEMO_HOME)) {
     print '<div class="ultimateimmo-demo-div">';
     print $conf->global->ULTIMATEIMMO_DEMO_HOME;
     print '</div>';
@@ -177,7 +175,7 @@ print '<div class="fichecenter ultimateimmo-grid">';
 foreach ($globalboxes as $globalbox) {
 
     print '<div class="ultimateimmo-card">';
-    print '<div class="ultimateimmo-left-side" style="background-color: '.$globalbox['color'].';"><i class="fa '.$globalbox['icon'].' icon"></i></div>';
+    print '<div class="ultimateimmo-left-side" style="background-color: '.$globalbox['color'].';"></div>';
     print '<div class="ultimateimmo-right-side"><div class="inner"><b style="color: '.$globalbox['color'].';">'.$globalbox['name'].'</b>';
     if (!empty($globalbox['url_add']) && $globalbox['right'])
         print '<a href="'.$globalbox['url_add'].'" class="ultimateimmo-rounded-btn"><i class="fa fa-plus-circle fa-2x" style="color: '.$globalbox['color'].';"></i></a>';
@@ -239,7 +237,7 @@ if ($user->rights->ultimateimmo->read) {
 foreach ($globalboxes as $globalbox) {
 
     print '<div class="ultimateimmo-card-list">';
-    print '<div class="ultimateimmo-left-side" style="background-color: '.$globalbox['color'].';"><i class="fa '.$globalbox['icon'].' icon"></i></div>';
+    print '<div class="ultimateimmo-left-side" style="background-color: '.$globalbox['color'].';"></div>';
     print '<div class="ultimateimmo-right-side"><div class="inner"><b style="color: '.$globalbox['color'].';">'.$globalbox['name'].'</b>';
     if (!empty($globalbox['url_add']) && $globalbox['right'])
         print '<a href="'.$globalbox['url_add'].'" class="ultimateimmo-rounded-btn"><i class="fa fa-plus-circle fa-2x" style="color: '.$globalbox['color'].';"></i></a>';
