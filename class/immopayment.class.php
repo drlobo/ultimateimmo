@@ -180,7 +180,7 @@ class ImmoPayment extends CommonObject
 		
 		foreach ($this->fields as $key => $val) {
 			// Unset fields that are disabled
-			if (isset($val['enabled']) && !empty($val['enabled'])) {
+			if (isset($val['enabled']) && empty($val['enabled'])) {
 				unset($this->fields[$key]);
 			}
 			// set default value
