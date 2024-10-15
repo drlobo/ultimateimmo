@@ -312,7 +312,7 @@ if (empty($reshook)) {
 							$payment->fk_account		= GETPOST("accountid");
 							$payment->fk_mode_reglement	= GETPOST("fk_mode_reglement");
 							$payment->num_payment		= GETPOST("num_payment");
-
+							$payment->status 			= 1; //paid
 							$result = $payment->create($user);
 
 							if ($result < 0) {
