@@ -3,8 +3,9 @@
 echo "Détection du module"
 MODULE_NAME=$(grep -Po '(?<=(\$this->rights_class = ''))(\w*)(\W*)(\w*)(?=(\W*))' core/modules/*.class.php | tr -d \')
 MODULE_VERSION=$(grep -Po '(?<=(\$this->version = ''))(\w*)(\W.....)(\w*)(?=(\W*))' core/modules/*.class.php | tr -d \')
-HTDOCS_PATH="BUILD/htdocs/$MODULE_NAME"
-BUILD_PATH="BUILD/build"
+WORKING_PATH=BUILD 
+HTDOCS_PATH="htdocs/$MODULE_NAME"
+BUILD_PATH="build"
 
 PATH_TO_CLEAN=($HTDOCS_PATH/.git $HTDOCS_PATH/BUILD $HTDOCS_PATH/$MODULE_NAME $HTDOCS_PATH/ci.sh)
 
@@ -13,9 +14,10 @@ echo -e "\tNom du module : $MODULE_NAME"
 echo -e "\tVersion : $MODULE_VERSION"
 echo ''
 
+cd  $WORKING_PATH
 echo -n "Nettoyage des anciens builds"
-rm -rf BUILD
-rm -rf module_$MODULE_NAME-$MODULE_VERSION.zip
+rm -rf $HTDOCS_PATH
+rm -rf $BUILD_PATH
 echo -n -e "\t\t[OK]\n"
 echo ''
 
@@ -27,17 +29,17 @@ echo -n -e "\t[OK]\n"
 echo ''
 
 echo "Création de la liste des fichiers du module"
-find . -not -path '*/\.*' -not -path "*BUILD*" | sed 's/^..//' |
+find .. -not -path '*/\.*' -not -path "*BUILD*" | sed 's/^..//' |
 while read filename
 do
-    if [ -d $filename ]
+    if [ -d ../$filename ]
     then
     #echo "Création du repertoire : $filename dans $HTDOCS_PATH/$filename"
     echo -n '#'
         mkdir -p $HTDOCS_PATH/$filename
     else
     #echo "Copie du fichier : $filename dans $HTDOCS_PATH/$filename"
-        cp $filename $HTDOCS_PATH/$filename
+        cp ../$filename $HTDOCS_PATH/$filename
     echo -n '.'
     fi
 done
@@ -56,4 +58,4 @@ done
 echo "Création de l'archive ZIP du module"
 echo -e "Fichier : module_$MODULE_NAME-$MODULE_VERSION.zip"
 
-cd BUILD && zip -r ../module_$MODULE_NAME-$MODULE_VERSION.zip . -q > /dev/null && cd ..
+zip -r $BUILD_PATH/module_$MODULE_NAME-$MODULE_VERSION.zip $HTDOCS_PATH -q > /dev/null && cd ..
