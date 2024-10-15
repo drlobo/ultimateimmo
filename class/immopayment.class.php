@@ -1008,7 +1008,7 @@ class ImmoPayment extends CommonObject
 
 				// Add link 'payment', 'payment_supplier', 'immopayment' in bank_url between payment and bank transaction
 				$url = '';
-				if ($mode == 'immopayment') $url = dol_buildpath('/ultimateimmo/receipt/immoreceipt_card.php', 1) . '?id=' . $this->id;
+				if ($mode == 'immopayment') $url = dol_buildpath('/ultimateimmo/receipt/immoreceipt_card.php', 1) . '?id=' . $this->rowid;
 				if ($url) {
 					$result = $acc->add_url_line($bank_line_id, $this->id, $url, '(paiement)', $mode);
 					if ($result <= 0) {
@@ -1039,7 +1039,7 @@ class ImmoPayment extends CommonObject
 	public function update_fk_bank($id_bank)
 	{
 		// phpcs:enable
-		$sql = "UPDATE " . MAIN_DB_PREFIX . "ultimateimmo_immopayment SET fk_account = " . $id_bank . " WHERE rowid = " . $this->id;
+		$sql = "UPDATE " . MAIN_DB_PREFIX . "ultimateimmo_immopayment SET fk_account = " . $id_bank . " WHERE rowid = " . $this->rowid;
 
 		dol_syslog(get_class($this) . "::update_fk_bank", LOG_DEBUG);
 		$result = $this->db->query($sql);

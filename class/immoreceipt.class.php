@@ -680,10 +680,8 @@ class ImmoReceipt extends CommonObject
 						$this->brouillon = 1;
 					}
 
-					$this->fk_mode_reglement  = $obj->fk_mode_reglement;
 					$this->mode_reglement_code = $obj->payment_code;
 					$this->mode_reglement = $obj->payment_label;
-					$this->date_rent = $this->db->jdate($obj->date_rent);
 					$this->date_start = $this->db->jdate($obj->date_start);
 					$this->date_end = $this->db->jdate($obj->date_end);
 					$this->date_creation = $this->db->jdate($obj->date_creation);
@@ -1426,7 +1424,7 @@ class ImmoReceipt extends CommonObject
 		if ($resql) {
 			$obj = $this->db->fetch_object($resql);
 			$this->db->free($resql);
-			return $obj->amount;
+			return $obj ? $obj->amount : 0;
 		} else {
 			$this->error = "Error ".$this->db->lasterror();
 			return -1;
