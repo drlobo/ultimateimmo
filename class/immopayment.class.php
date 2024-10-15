@@ -42,10 +42,6 @@ class ImmoPayment extends CommonObject
 	 */
 	public $table_element = 'ultimateimmo_immopayment';
 	/**
-	 * @var string Name of table without prefix where object is stored
-	 */
-	public $fk_element = 'fk_payment';
-	/**
 	 * @var ImmopaymentLine[] Lines
 	 */
 	public $lines = array();
@@ -87,7 +83,7 @@ class ImmoPayment extends CommonObject
 	 */
 	public $fields = array(
 		'rowid' => array('type' => 'integer', 'label' => 'TechnicalID', 'enabled' => 1, 'visible' => -1, 'position' => 1, 'notnull' => 1, 'index' => 1, 'comment' => "Id",),
-		'ref' => array('type' => 'varchar(128)', 'label' => 'Ref', 'enabled' => 1, 'visible' => 1, 'position' => 10, 'notnull' => 1, 'index' => 1, 'searchall' => 1, 'comment' => "Reference of object", 'showoncombobox' => '1',),
+		'ref' => array('type' => 'varchar(128)', 'label' => 'Ref', 'enabled' => 1, 'visible' => 1, 'position' => 10, 'default' => '(PROV)', 'notnull' => 1, 'index' => 1, 'searchall' => 1, 'comment' => "Reference of object", 'showoncombobox' => '1',),
 		'entity' => array('type' => 'integer', 'label' => 'Entity', 'visible' => 0, 'enabled' => 1, 'position' => 20, 'default' => 1, 'notnull' => 1, 'index' => 1,),
 		'fk_rent' => array('type' => 'integer:ImmoRent:ultimateimmo/class/immorent.class.php', 'label' => 'Contract', 'enabled' => 1, 'visible' => 1, 'position' => 25, 'notnull' => -1, 'index' => 1, 'help' => "LinkToContract",),
 		'fk_receipt' => array('type' => 'integer:ImmoReceipt:ultimateimmo/class/immoreceipt.class.php', 'label' => 'ImmoReceipt', 'enabled' => 1, 'visible' => 1, 'position' => 30, 'notnull' => -1, 'index' => 1, 'help' => 'ImmoPaymentReceiptInfo',),
@@ -95,7 +91,7 @@ class ImmoPayment extends CommonObject
 		'fk_soc' => array('type' => 'integer:Societe:societe/class/societe.class.php', 'label' => 'ThirdParty', 'visible' => 1, 'enabled' => 1, 'position' => 36, 'notnull' => -1, 'index' => 1, 'searchall' => 1, 'help' => "LinkToThirdparty",),
 		'fk_property' => array('type' => 'integer:ImmoProperty:ultimateimmo/class/immoproperty.class.php', 'label' => 'Property', 'enabled' => 1, 'visible' => 1, 'position' => 40, 'notnull' => -1, 'index' => 1, 'help' => "LinkToProperty",),
 		'fk_renter' => array('type' => 'integer:ImmoRenter:ultimateimmo/class/immorenter.class.php', 'label' => 'Renter', 'enabled' => 1, 'visible' => 1, 'position' => 45, 'notnull' => -1, 'index' => 1, 'help' => "LinkToRenter",),
-		'fk_payment' => array('type' => 'integer', 'label' => 'Payment', 'visible' => 0, 'enabled' => 1, 'position' => 48, 'default' => 1, 'notnull' => 1, 'index' => 1,),
+		//'fk_payment' => array('type' => 'integer', 'label' => 'Payment', 'visible' => 0, 'enabled' => 1, 'position' => 48, 'default' => 1, 'notnull' => 1, 'index' => 1,),
 		'note_public' => array('type' => 'html', 'label' => 'NotePublic', 'enabled' => 1, 'visible' => -1, 'position' => 50, 'notnull' => -1,),
 		'date_payment' => array('type' => 'date', 'label' => 'DatePayment', 'enabled' => 1, 'visible' => -1, 'position' => 70, 'notnull' => 1,),
 		'amount' => array('type' => 'price', 'label' => 'Amount', 'enabled' => 1, 'visible' => 1, 'position' => 72, 'notnull' => -1, 'default' => 'null', 'isameasure' => '1', 'help' => 'ImmoPaymentAmountInfo',),
@@ -125,7 +121,7 @@ class ImmoPayment extends CommonObject
 	public $amounts=array();    // Array of amounts
 	public $fk_mode_reglement;
 	public $fk_account;
-	public $fk_payment;
+	//public $fk_payment;
 	public $num_payment;
 	public $check_transmitter;
 	public $chequebank;
@@ -181,10 +177,15 @@ class ImmoPayment extends CommonObject
 		if (empty($conf->global->MAIN_SHOW_TECHNICAL_ID) && isset($this->fields['rowid'])) $this->fields['rowid']['visible'] = 0;
 		if (empty($conf->multicompany->enabled) && isset($this->fields['entity'])) $this->fields['entity']['enabled'] = 0;
 
-		// Unset fields that are disabled
+		
 		foreach ($this->fields as $key => $val) {
-			if (isset($val['enabled']) && empty($val['enabled'])) {
+			// Unset fields that are disabled
+			if (isset($val['enabled']) && !empty($val['enabled'])) {
 				unset($this->fields[$key]);
+			}
+			// set default value
+			if (isset($val['default'])) {
+				$this->{$key} = $val['default'];
 			}
 		}
 
@@ -369,6 +370,7 @@ class ImmoPayment extends CommonObject
 		}
 
 		// Clean parameters
+		if (isset($this->ref))				$this->ref = trim($this->ref);
 		if (isset($this->fk_receipt)) 		$this->fk_receipt = trim($this->fk_receipt);
 		if (isset($this->amount))			$this->amount = trim($this->amount);
 		if (isset($this->fk_mode_reglement)) $this->fk_mode_reglement = trim($this->fk_mode_reglement);
@@ -398,24 +400,38 @@ class ImmoPayment extends CommonObject
 		$this->db->begin();
 
 		if ($totalamount != 0) {
-			$sql = "INSERT INTO " . MAIN_DB_PREFIX . "ultimateimmo_immopayment (fk_receipt, date_creation, date_payment, amount,";
+			$sql = "INSERT INTO " . MAIN_DB_PREFIX . $this->table_element . "(ref, fk_receipt, date_creation, date_payment, amount,";
 			$sql .= " fk_mode_reglement, fk_property, fk_renter, fk_rent, num_payment, note_public, fk_user_creat, fk_account, ";
-			$sql .= "fk_owner)";
-			$sql .= " VALUES (" . $this->fk_receipt . ", '" . $this->db->idate($now) . "',";
+			$sql .= "fk_owner, status)";
+			$sql .= " VALUES ('". $this->ref . "', ";
+			$sql .= "" . $this->fk_receipt . ", ";
+			$sql .= "'" . $this->db->idate($now) . "',";
 			$sql .= " '" . $this->db->idate($this->date_payment) . "',";
 			$sql .= " " . $totalamount . ",";
 			$sql .= " " . $this->fk_mode_reglement . ",'" . $this->db->escape($this->fk_property) . "','" .
 				$this->db->escape($this->fk_renter) . "','" . $this->db->escape($this->fk_rent) . "',  '" .
 				$this->db->escape($this->num_payment) . "', '" . $this->db->escape($this->note_public) . "', " . $user->id . ",";
 			$sql .= " 0,";
-			$sql .= isset($this->fk_owner)?(int)$this->fk_owner:'null';
+			$sql .= (isset($this->fk_owner)?(int)$this->fk_owner:'null'). ",";
+			$sql .= $this->status;
 			$sql .= ")";
 
 			dol_syslog(get_class($this) . "::create", LOG_DEBUG);
 			$resql = $this->db->query($sql);
 			if ($resql) {
-				$this->id = $this->db->last_insert_id(MAIN_DB_PREFIX . "ultimateimmo_immopayment");
-				$this->ref = $this->id;
+				$this->rowid = $this->db->last_insert_id(MAIN_DB_PREFIX . $this->table_element);
+				// If we have a field ref with a default value of (PROV)
+				if ($this->ref == '(PROV)') {
+					$sql = "UPDATE " . MAIN_DB_PREFIX . $this->table_element . " SET ref = '(PROV" . $this->rowid . ")' WHERE (ref = '(PROV)' OR ref = '') AND rowid = " . $this->rowid;
+					$resqlupdate = $this->db->query($sql);
+
+					if ($resqlupdate === false) {
+						$error++;
+						$this->errors[] = $this->db->lasterror();
+					} else {
+						$this->ref = '(PROV ' . $this->rowid . ')';
+					}
+				}
 			} else {
 				$error++;
 			}
