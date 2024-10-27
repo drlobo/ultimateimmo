@@ -323,7 +323,7 @@ class FormUltimateimmo extends Form
 		} else {
 			$dataYear=array();
 			$sql = 'SELECT DISTINCT EXTRACT(YEAR FROM date_start) as yearcost FROM ' . MAIN_DB_PREFIX . 'ultimateimmo_immocost WHERE fk_cost_type IN (' . $conf->global->ULTIMATEIMMO_TYPECOST_ADJUST . ')';
-			$sql .= 'ORDER BY date_start DESC';
+			$sql .= 'ORDER BY yearcost DESC';
 			$resql=$this->db->query($sql);
 
 			if ($resql) {
