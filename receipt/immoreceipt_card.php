@@ -983,7 +983,7 @@ if ($object->id > 0 && (empty($action) || ($action != 'edit' && $action != 'crea
 		} else {
 			$dt_startCpt = array();
 			$sql = "SELECT DISTINCT date_relever FROM " . MAIN_DB_PREFIX . "ultimateimmo_immocompteur WHERE fk_immoproperty=" . (int)$rent->fk_property;
-			$sql .= " AND date_relever>='" . $db->idate($rent->date_last_regul_charge) . "'";
+			$sql .= " AND date_relever>='" . $db->idate($rent->date_last_regul_charge ?: 0) . "'";
 
 			$resql = $db->query($sql);
 			if (!$resql) {
