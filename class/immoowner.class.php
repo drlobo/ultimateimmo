@@ -590,12 +590,13 @@ class ImmoOwner extends CommonObjectUltimateImmo
             $notooltip = 1; // Force disable tooltips
 
         $result = '';
+        $displayName = !empty($this->societe)? $this->societe : $this->civility . ' ' . $this->firstname . ' ' . $this->lastname;
 
         $label = '<u>' . $langs->trans("ImmoOwner") . '</u>';
         $label .= '<br>';
         $label .= '<b>' . $langs->trans('Ref') . ':</b> ' . $this->ref;
         $label .= '<br>';
-        $label .= '<b>' . $langs->trans('Lastname') . ':</b> ' . $this->civility . ' ' . $this->firstname . ' ' . $this->lastname;
+        $label .= '<b>' . $langs->trans('Lastname') . ':</b> ' . $displayName;
         if (isset($this->status)) {
             $label .= '<br><b>' . $langs->trans("Status") . ":</b> " . $this->getLibStatut(5);
         }
@@ -630,7 +631,8 @@ class ImmoOwner extends CommonObjectUltimateImmo
         if ($withpicto)
             $result .= img_object(($notooltip ? '' : $label), ($this->picto ? $this->picto : 'generic'), ($notooltip ? (($withpicto != 2) ? 'class="paddingright" height="24"' : '') : 'class="' . (($withpicto != 2) ? 'paddingright ' : '') . 'classfortooltip" height="24"'), 0, 0, $notooltip ? 0 : 1);
         if ($withpicto != 2)
-            $result .= $this->civility . ' ' . $this->firstname . ' ' . $this->lastname;
+   
+            $result .= $displayName;
         $result .= $linkend;
         //if ($withpicto != 2) $result.=(($addlabel && $this->label) ? $sep . dol_trunc($this->label, ($addlabel > 1 ? $addlabel : 0)) : '');
 
