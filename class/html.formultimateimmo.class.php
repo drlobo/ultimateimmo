@@ -322,8 +322,8 @@ class FormUltimateimmo extends Form
 			setEventMessage('Missing configuration TypeCostForAdjust','errors');
 		} else {
 			$dataYear=array();
-			$sql = 'SELECT DISTINCT YEAR(date_start) as yearcost FROM ' . MAIN_DB_PREFIX . 'ultimateimmo_immocost WHERE fk_cost_type IN (' . $conf->global->ULTIMATEIMMO_TYPECOST_ADJUST . ')';
-			$sql .= 'ORDER BY date_start DESC';
+			$sql = 'SELECT DISTINCT EXTRACT(YEAR FROM date_start) as yearcost FROM ' . MAIN_DB_PREFIX . 'ultimateimmo_immocost WHERE fk_cost_type IN (' . $conf->global->ULTIMATEIMMO_TYPECOST_ADJUST . ')';
+			$sql .= 'ORDER BY yearcost DESC';
 			$resql=$this->db->query($sql);
 
 			if ($resql) {
@@ -344,8 +344,8 @@ class FormUltimateimmo extends Form
 		dol_include_once('/ultimateimmo/class/immocompteur.class.php');
 		$object = new ImmoCompteur($this->db);
 		$dataYear=array();
-		$sql = 'SELECT DISTINCT YEAR(date_relever) as yearrelever FROM ' . MAIN_DB_PREFIX . $object->table_element;
-		$sql .= ' ORDER BY date_relever DESC';
+		$sql = 'SELECT DISTINCT EXTRACT(YEAR FROM date_relever) as yearrelever FROM ' . MAIN_DB_PREFIX . $object->table_element;
+		$sql .= ' ORDER BY yearrelever DESC';
 		$resql=$this->db->query($sql);
 
 		if ($resql) {

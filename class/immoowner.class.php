@@ -360,18 +360,17 @@ class ImmoOwner extends CommonObjectUltimateImmo
         }
     }
 
-    /**
-     * Load object in memory from the database
-     *
-     * @param	int    $id				Id object
-     * @param	string $ref				Ref
-     * @param	string	$morewhere		More SQL filters (' AND ...')
-     * @return 	int         			<0 if KO, 0 if not found, >0 if OK
-     */
-    public function fetchCommon($id, $ref = null, $morewhere = '', $noextrafields = 0)
-    {
-        if (empty($id) && empty($ref))
-            return false;
+	/**
+	 * Load object in memory from the database
+	 *
+	 * @param	int    $id				Id object
+	 * @param	string $ref				Ref
+	 * @param	string	$morewhere		More SQL filters (' AND ...')
+	 * @return 	int         			<0 if KO, 0 if not found, >0 if OK
+	 */
+	public function fetchCommon($id, $ref = null, $morewhere = '', $noextrafields = 0)
+	{
+		if (empty($id) && empty($ref)) return false;
 
         global $langs;
 
@@ -1013,10 +1012,43 @@ class ImmoOwner extends CommonObjectUltimateImmo
         if (empty($code))
             return '';
 
-        $langs->load("dict");
-        return $langs->getLabelFromKey($this->db, "Civility" . $code, "c_civility", "code", "label", $code);
-    }
+		$langs->load("dict");
+		return $langs->getLabelFromKey($this->db, "Civility".$code, "c_civility", "code", "label", $code);
+	}
+
+	/**
+	 *	Return full name (civility+' '+name+' '+lastname)
+	 *
+	 *	@param	Translate	$langs			Language object for translation of civility (used only if option is 1)
+	 *	@param	int			$option			0=No option, 1=Add civility
+	 * 	@param	int			$nameorder		-1=Auto, 0=Lastname+Firstname, 1=Firstname+Lastname, 2=Firstname, 3=Firstname if defined else lastname, 4=Lastname, 5=Lastname if defined else firstname
+	 * 	@param	int			$maxlen			Maximum length
+	 * 	@return	string						String with full name
+	 */
+	public function getFullName($langs, $option = 0, $nameorder = -1, $maxlen = 0)
+	{
+		//print "lastname=".$this->lastname." name=".$this->name." nom=".$this->nom."<br>\n";
+		$lastname = $this->lastname;
+		$firstname = $this->firstname;
+		if (empty($lastname)) {
+			$lastname = (isset($this->lastname) ? $this->lastname : (isset($this->name) ? $this->name : (isset($this->nom) ? $this->nom : (isset($this->societe) ? $this->societe : (isset($this->company) ? $this->company : '')))));
+		}
+
+		$ret = '';
+		if (!empty($option) && !empty($this->civility_code)) {
+			if ($langs->transnoentitiesnoconv("Civility".$this->civility_code) != "Civility".$this->civility_code) {
+				$ret .= $langs->transnoentitiesnoconv("Civility".$this->civility_code).' ';
+			} else {
+				$ret .= $this->civility_code.' ';
+			}
+		}
+
+		$ret .= dolGetFirstLastname($firstname, $lastname, $nameorder);
+
+		return dol_string_nohtmltag(dol_trunc($ret, $maxlen));
+	}
 }
+
 
 /**
  * Class ImmoOwnerLine. You can also remove this and generate a CRUD class for lines objects.
