@@ -715,7 +715,7 @@ if ($action == 'createall') {
 	print '<tr><td class="fieldrequired">' . $langs->trans('Echeance') . '</td><td>';
 	print $form->selectDate(!empty($date_echeance) ? $date_echeance : '-1', 'ech', '', '', 0, "fiche_loyer", 1, 1, 0, '', '', $object->date);
 	print '</td></tr>';
-	print '<tr><td class="">' . $langs->trans('Periode_du') . '</td><td>';
+	print '<tr><td class="fieldrequired">' . $langs->trans('Periode_du') . '</td><td>';
 	print $form->selectDate(!empty($dateperiod) ? $dateperiod : '-1', 'period', '', '', 0, "fiche_loyer", 1, 1, 0, '', '', $object->date);
 	print '</td></tr>';
 	print '<tr><td class="fieldrequired">' . $langs->trans('Periode_au') . '</td><td>';
