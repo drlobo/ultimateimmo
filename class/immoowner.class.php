@@ -590,8 +590,7 @@ class ImmoOwner extends CommonObjectUltimateImmo
             $notooltip = 1; // Force disable tooltips
 
         $result = '';
-        $displayName = !empty($this->societe)? $this->societe : $this->civility . ' ' . $this->firstname . ' ' . $this->lastname;
-
+        $displayName =  $this->getFullName($langs,1);
         $label = '<u>' . $langs->trans("ImmoOwner") . '</u>';
         $label .= '<br>';
         $label .= '<b>' . $langs->trans('Ref') . ':</b> ' . $this->ref;
@@ -1029,26 +1028,18 @@ class ImmoOwner extends CommonObjectUltimateImmo
 	 */
 	public function getFullName($langs, $option = 0, $nameorder = -1, $maxlen = 0)
 	{
-		//print "lastname=".$this->lastname." name=".$this->name." nom=".$this->nom."<br>\n";
-		$lastname = $this->lastname;
-		$firstname = $this->firstname;
-		if (empty($lastname)) {
-			$lastname = (isset($this->lastname) ? $this->lastname : (isset($this->name) ? $this->name : (isset($this->nom) ? $this->nom : (isset($this->societe) ? $this->societe : (isset($this->company) ? $this->company : '')))));
-		}
-
-		$ret = '';
-		if (!empty($option) && !empty($this->civility_code)) {
-			if ($langs->transnoentitiesnoconv("Civility".$this->civility_code) != "Civility".$this->civility_code) {
-				$ret .= $langs->transnoentitiesnoconv("Civility".$this->civility_code).' ';
-			} else {
-				$ret .= $this->civility_code.' ';
-			}
-		}
-
-		$ret .= dolGetFirstLastname($firstname, $lastname, $nameorder);
-
-		return dol_string_nohtmltag(dol_trunc($ret, $maxlen));
-	}
+        $ret = '';
+        if(!empty($this->societe)){
+            $ret .= $this->societe;
+        }else{
+           
+            if (!empty($option) && !empty($this->civility)) {
+                $ret .= $this->civility_code.' ';
+            }
+            $ret .= dolGetFirstLastname($this->firstname, $this->lastname, $nameorder);
+        }
+        return dol_string_nohtmltag(dol_trunc($ret, $maxlen));
+    }
 }
 
 
