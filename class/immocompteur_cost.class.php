@@ -61,7 +61,7 @@ class ImmoCompteur_Cost extends CommonObject
 	/**
 	 * @var string String with name of icon for immocompteur_cost. Must be the part after the 'object_' into object_immocompteur_cost.png
 	 */
-	public $picto = 'immocompteur_cost@ultimateimmo';
+	public $picto = 'fa-tachometer-alt';
 
 
 	const STATUS_DRAFT = 0;
