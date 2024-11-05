@@ -268,7 +268,7 @@ if ($object->id > 0 && (empty($action) || ($action != 'edit' && $action != 'crea
 	}
 
 	if (! $formconfirm) {
-	    $parameters = array('lineid' => $lineid);
+	    $parameters = array();
 	    $reshook = $hookmanager->executeHooks('formConfirm', $parameters, $object, $action); // Note that $action and $object may have been modified by hook
 	    if (empty($reshook)) $formconfirm.=$hookmanager->resPrint;
 	    elseif ($reshook > 0) $formconfirm=$hookmanager->resPrint;
@@ -434,7 +434,7 @@ if ($object->id > 0 && (empty($action) || ($action != 'edit' && $action != 'crea
 	    // List of actions on element
 	    include_once DOL_DOCUMENT_ROOT . '/core/class/html.formactions.class.php';
 	    $formactions = new FormActions($db);
-	    $somethingshown = $formactions->showactions($object, 'immoowner_type', $socid, 1, '', $MAXEVENT, '', $morehtmlright);
+		$somethingshown = $formactions->showactions($object, $object->element.'@'.$object->module, (is_object($object->thirdparty) ? $object->thirdparty->id : 0), 1, '', $MAXEVENT, '', $morehtmlright);
 
 	    print '</div></div></div>';
 	}

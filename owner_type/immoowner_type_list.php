@@ -78,7 +78,7 @@ $extralabels = $extrafields->fetch_name_optionals_label('immoowner_type');
 $search_array_options=$extrafields->getOptionalsFromPost($extralabels,'','search_');
 
 // Default sort order (if not yet defined by previous GETPOST)
-if (! $sortfield) $sortfield="t.label";   // Set here default search field. By default 1st field in definition.
+if (! $sortfield) $sortfield="t.ref";   // Set here default search field. By default 1st field in definition.
 if (! $sortorder) $sortorder="ASC";
 
 // Security check
@@ -102,7 +102,7 @@ foreach($object->fields as $key => $val)
 $fieldstosearchall = array();
 foreach($object->fields as $key => $val)
 {
-	if ($val['searchall']) $fieldstosearchall['t.'.$key]=$val['label'];
+	$fieldstosearchall['t.'.$key]=$val['label'];
 }
 
 // Definition of fields for list
@@ -113,11 +113,18 @@ foreach($object->fields as $key => $val)
 	if (! empty($val['visible'])) $arrayfields['t.'.$key]=array('label'=>$val['label'], 'checked'=>(($val['visible']<0)?0:1), 'enabled'=>$val['enabled'], 'position'=>$val['position']);
 }
 // Extra fields
-if (is_array($extrafields->attribute_label) && count($extrafields->attribute_label))
-{
-	foreach($extrafields->attribute_label as $key => $val)
-	{
-		if (! empty($extrafields->attribute_list[$key])) $arrayfields["ef.".$key]=array('label'=>$extrafields->attribute_label[$key], 'checked'=>(($extrafields->attribute_list[$key]<0)?0:1), 'position'=>$extrafields->attribute_pos[$key], 'enabled'=>(abs($extrafields->attribute_list[$key])!=3 && $extrafields->attribute_perms[$key]));
+if (key_exists($object->table_element,$extrafields->attributes)
+	&& is_array($extrafields->attributes[$object->table_element]['label']) 
+	&& count($extrafields->attributes[$object->table_element]['label']) > 0) {
+	foreach ($extrafields->attributes[$object->table_element]['label'] as $key => $val) {
+		if (!empty($extrafields->attributes[$object->table_element]['list'][$key])) {
+			$arrayfields["ef." . $key] = array(
+				'label' => $extrafields->attributes[$object->table_element]['label'][$key],
+				'checked' => (($extrafields->attributes[$object->table_element]['list'][$key] < 0) ? 0 : 1),
+				'position' => $extrafields->attributes[$object->table_element]['pos'][$key],
+				'enabled' => (abs($extrafields->attributes[$object->table_element]['list'][$key]) != 3 && $extrafields->attributes[$object->table_element]['perms'][$key])
+			);
+		}
 	}
 }
 $object->fields = dol_sort_array($object->fields, 'position');
@@ -193,14 +200,19 @@ foreach($object->fields as $key => $val)
 	$sql.='t.'.$key.', ';
 }
 // Add fields from extrafields
-foreach ($extrafields->attribute_label as $key => $val) $sql.=($extrafields->attribute_type[$key] != 'separate' ? ", ef.".$key.' as options_'.$key : '');
+if (!empty($extrafields->attributes[$object->table_element]['label'])) {
+	foreach ($extrafields->attributes[$object->table_element]['label'] as $key => $val) $sql .= ($extrafields->attributes[$object->table_element]['type'][$key] != 'separate' ? "ef." . $key . ' as options_' . $key . ', ' : '');
+}
 // Add fields from hooks
 $parameters=array();
 $reshook=$hookmanager->executeHooks('printFieldListSelect', $parameters, $object);    // Note that $action and $object may have been modified by hook
 $sql.=$hookmanager->resPrint;
 $sql=preg_replace('/, $/','', $sql);
 $sql.= " FROM ".MAIN_DB_PREFIX.$object->table_element." as t";
-if (is_array($extrafields->attribute_label) && count($extrafields->attribute_label)) $sql.= " LEFT JOIN ".MAIN_DB_PREFIX."immoowner_type_extrafields as ef on (t.rowid = ef.fk_object)";
+if (key_exists($object->table_element,$extrafields->attributes)
+		&& is_array($extrafields->attributes[$object->table_element]['label']) 
+		&& count($extrafields->attributes[$object->table_element]['label'])) 
+		$sql .= " LEFT JOIN " . MAIN_DB_PREFIX . $object->table_element . "_extrafields as ef on (t.rowid = ef.fk_object)";
 if ($object->ismultientitymanaged == 1) $sql.= " WHERE t.entity IN (".getEntity('immoowner_type').")";
 else $sql.=" WHERE 1 = 1";
 foreach($search as $key => $val)
@@ -342,10 +354,11 @@ $objecttmp=new ImmoOwner_Type($db);
 $trackid='xxxx'.$object->id;
 include DOL_DOCUMENT_ROOT.'/core/tpl/massactions_pre.tpl.php';
 
-if ($sall)
-{
-	foreach($fieldstosearchall as $key => $val) $fieldstosearchall[$key]=$langs->trans($val);
-	print $langs->trans("FilterOnInto", $sall) . join(', ',$fieldstosearchall);
+if ($search_all) {
+	foreach ($fieldstosearchall as $key => $val) {
+		$fieldstosearchall[$key] = $langs->trans($val);
+	}
+	print '<div class="divsearchfieldfilter">' . $langs->trans("FilterOnInto", $search_all) . join(', ', $fieldstosearchall) . '</div>';
 }
 
 $moreforfilter = '';
@@ -382,7 +395,7 @@ foreach($object->fields as $key => $val)
 	if (in_array($val['type'], array('date','datetime','timestamp'))) $align.=($align?' ':'').'center';
 	if (in_array($val['type'], array('timestamp'))) $align.=($align?' ':'').'nowrap';
 	if ($key == 'status') $align.=($align?' ':'').'center';
-	if (! empty($arrayfields['t.'.$key]['checked'])) print '<td class="liste_titre'.($align?' '.$align:'').'"><input type="text" class="flat maxwidth75" name="search_'.$key.'" value="'.dol_escape_htmltag($search[$key]).'"></td>';
+	if (! empty($arrayfields['t.'.$key]['checked'])) print '<td class="liste_titre'.($align?' '.$align:'').'"><input type="text" class="flat maxwidth75" name="search_'.$key.'" value="'. dol_escape_htmltag(isset($search[$key]) ? $search[$key] : '').'"></td>';
 }
 // Extra fields
 include DOL_DOCUMENT_ROOT.'/core/tpl/extrafields_list_search_input.tpl.php';
@@ -435,6 +448,7 @@ if (isset($extrafields->attributes[$object->table_element]['computed']) && is_ar
 // --------------------------------------------------------------------
 $i=0;
 $totalarray=array();
+$totalarray['nbfield'] = 0;
 while ($i < min($num, $limit))
 {
 	$obj = $db->fetch_object($resql);
