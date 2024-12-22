@@ -55,7 +55,7 @@ class ImmoCost_Type extends CommonObject
 	/**
 	 * @var string String with name of icon for immocost_type. Must be the part after the 'object_' into object_immocost_type.png
 	 */
-	public $picto = 'immocost_type@ultimateimmo';
+	public $picto = 'fa-chart-line';
 
 
 	/**

@@ -59,7 +59,7 @@ class ImmoCost extends CommonObject
 	/**
 	 * @var string String with name of icon for immocost. Must be the part after the 'object_' into object_immocost.png
 	 */
-	public $picto = 'immocost@ultimateimmo';
+	public $picto = 'fa-file-invoice-dollar';
 
 
 	/**
