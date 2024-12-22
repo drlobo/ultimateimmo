@@ -61,7 +61,7 @@ class ImmoBuilding extends CommonObject
 	/**
 	 * @var string String with name of icon for immobuilding. Must be the part after the 'object_' into object_immobuilding.png
 	 */
-	public $picto = 'immobuilding@ultimateimmo';
+	public $picto = 'fa-landmark';
 
 
 	const STATUS_DRAFT = 0;

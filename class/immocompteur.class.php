@@ -56,7 +56,7 @@ class ImmoCompteur extends CommonObject
 	/**
 	 * @var string String with name of icon for immocompteur. Must be the part after the 'object_' into object_immocompteur.png
 	 */
-	public $picto = 'immocompteur@ultimateimmo';
+	public $picto = 'fa-list-ol';
 
 
 	const STATUS_DRAFT = 0;
