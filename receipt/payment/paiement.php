@@ -184,7 +184,8 @@ if ($action == 'add_payment') {
 			$payment->fk_mode_reglement  = GETPOST('fk_mode_reglement', 'int');
 			$payment->fk_bank  = GETPOST('fk_bank', 'int');
 			$payment->num_payment  = GETPOST('num_payment', 'int');
-			$payment->note_public  = GETPOST('note_public', 'string');
+			$payment->note_public  = GETPOST('note_public', 'alpha');
+			$payment->status 	   = 1; //paid
 
 			if (!$error) {
 				$paymentid = $payment->create($user);
