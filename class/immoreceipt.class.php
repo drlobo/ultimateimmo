@@ -149,7 +149,7 @@ class ImmoReceipt extends CommonObject
 		'import_key'    => array('type' => 'varchar(14)', 'label' => 'ImportId', 'enabled' => 1, 'visible' => -2, 'position' => 1000, 'notnull' => -1),
 		'model_pdf'     => array('type' => 'varchar(128)', 'label' => 'ModelPdf', 'enabled' => 1, 'visible' => -2, 'position' => 1010, 'notnull' => -1, 'index' => 1, 'searchall' => 1),
 		'last_main_doc' => array('type' => 'varchar(255)', 'label' => 'LastMainDoc', 'enabled' => 1, 'visible' => -2, 'position' => 1020, 'notnull' => -1),
-		'status' => array('type' => 'integer', 'label' => 'Status', 'enabled' => 1, 'visible' => 1, 'position' => 1000, 'notnull' => -1, 'default' => '0', 'index' => 1, 'arrayofkeyval' => array('0' => 'ImmoReceiptStatusDisabled', '1' => 'ImmoReceiptStatusActive', '-1' => 'Cancel')),
+		'status' 		=> array('type' => 'integer', 'label' => 'Status', 'enabled' => 1, 'visible' => 1, 'position' => 1030, 'notnull' => -1, 'default' => '0', 'index' => 1, 'arrayofkeyval' => array('0' => 'ImmoReceiptStatusDisabled', '1' => 'ImmoReceiptStatusActive', '-1' => 'Cancel')),
 	);
 
 	/**
@@ -659,9 +659,9 @@ class ImmoReceipt extends CommonObject
 		$sql .= ' lc.email as emaillocataire,';
 		$sql .= ' cp.libelle as payment_label, cp.code as payment_code';
 		$sql .= ' FROM ' . MAIN_DB_PREFIX . $this->table_element . ' as t';
-		$sql .= ' INNER JOIN ' . MAIN_DB_PREFIX . 'ultimateimmo_immorenter as lc ON t.fk_renter = lc.rowid';
-		$sql .= ' INNER JOIN ' . MAIN_DB_PREFIX . 'ultimateimmo_immoproperty as ll ON t.fk_property = ll.rowid';
-		$sql .= ' INNER JOIN ' . MAIN_DB_PREFIX . 'ultimateimmo_immorent as ic ON t.fk_rent = ic.rowid';
+		$sql .= ' LEFT JOIN ' . MAIN_DB_PREFIX . 'ultimateimmo_immorenter as lc ON t.fk_renter = lc.rowid';
+		$sql .= ' LEFT JOIN ' . MAIN_DB_PREFIX . 'ultimateimmo_immoproperty as ll ON t.fk_property = ll.rowid';
+		$sql .= ' LEFT JOIN ' . MAIN_DB_PREFIX . 'ultimateimmo_immorent as ic ON t.fk_rent = ic.rowid';
 		$sql .= ' LEFT JOIN ' . MAIN_DB_PREFIX . 'ultimateimmo_immopayment as pm ON t.fk_payment = pm.rowid';
 		$sql .= ' LEFT JOIN ' . MAIN_DB_PREFIX . 'c_paiement as cp ON pm.fk_mode_reglement = cp.id';
 
@@ -824,8 +824,8 @@ class ImmoReceipt extends CommonObject
 		$sql .= " il.date_start , il.date_end, il.fk_owner, il.partial_payment ";
 		$sql .= " , lc.firstname as nomlocataire , ll.label as nomlocal ";
 		$sql .= " FROM " . MAIN_DB_PREFIX . $this->table_element." as il ";
-		$sql .= " INNER JOIN " . MAIN_DB_PREFIX . "ultimateimmo_immorenter as lc ON il.fk_renter = lc.rowid";
-		$sql .= " INNER JOIN  " . MAIN_DB_PREFIX . "ultimateimmo_immoproperty as ll ON il.fk_property = ll.rowid ";
+		$sql .= " LEFT JOIN " . MAIN_DB_PREFIX . "ultimateimmo_immorenter as lc ON il.fk_renter = lc.rowid";
+		$sql .= " LEFT JOIN  " . MAIN_DB_PREFIX . "ultimateimmo_immoproperty as ll ON il.fk_property = ll.rowid ";
 		$sql .= " WHERE il.fk_property = " . $id;
 
 		if (is_array($filter) && count($filter)>0)

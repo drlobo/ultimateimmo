@@ -668,6 +668,8 @@ while ($i < ($limit ? min($num, $limit) : $num)) {
 	// Store properties in $object
 	$object->setVarsFromFetchObj($obj);
 
+	$sumPayment = $object->getSommePaiement();
+
 	// Show here line of result
 	print '<tr class="oddeven">';
 	foreach ($object->fields as $key => $val) {
@@ -719,22 +721,18 @@ while ($i < ($limit ? min($num, $limit) : $num)) {
 				}
 				print $staticproperty->ref;
 			} elseif ($val['label'] == 'PartialPayment') {
-				if ($object->getSommePaiement()) {
-					$totalpaye = price($object->getSommePaiement(), 0, $langs, 1, -1, -1, $conf->currency);
-					print $totalpaye;
+				if ($sumPayment) {
+					print price($sumPayment, 0, $langs, 1, -1, -1, $conf->currency);
 				}
 			} elseif ($val['label'] == 'Balance') {
-				$balance = $object->total_amount - $object->getSommePaiement();
-
+				$balance = $object->total_amount - $sumPayment;
 				if ($balance >= 0) {
-
 					print price($balance, 0, $langs, 1, -1, -1, $conf->currency);
-
 					//For total
 					$obj->balance = $balance;
 				}
 			} elseif ($val['label'] == 'Paye') {
-				if ($totalpaye == 0) {
+				if ($sumPayment == 0) {
 					print $object->paye = $langs->trans('UnPaidReceipt');
 				} elseif ($balance == 0) {
 					print $object->paye = $langs->trans('PaidReceipt');
