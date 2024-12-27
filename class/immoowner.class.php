@@ -595,7 +595,7 @@ class ImmoOwner extends CommonObjectUltimateImmo
         $label .= '<br>';
         $label .= '<b>' . $langs->trans('Ref') . ':</b> ' . $this->ref;
         $label .= '<br>';
-        $label .= '<b>' . $langs->trans('Lastname') . ':</b> ' . $this->civility . ' ' . $this->firstname . ' ' . $this->lastname;
+        $label .= '<b>' . $langs->trans('Nom') . ':</b> ' . $this->getFullName($langs);
         if (isset($this->status)) {
             $label .= '<br><b>' . $langs->trans("Status") . ":</b> " . $this->getLibStatut(5);
         }
@@ -630,7 +630,7 @@ class ImmoOwner extends CommonObjectUltimateImmo
         if ($withpicto)
             $result .= img_object(($notooltip ? '' : $label), ($this->picto ? $this->picto : 'generic'), ($notooltip ? (($withpicto != 2) ? 'class="paddingright" height="24"' : '') : 'class="' . (($withpicto != 2) ? 'paddingright ' : '') . 'classfortooltip" height="24"'), 0, 0, $notooltip ? 0 : 1);
         if ($withpicto != 2)
-            $result .= $this->civility . ' ' . $this->firstname . ' ' . $this->lastname;
+            $result .= $this->getFullName($langs);
         $result .= $linkend;
         //if ($withpicto != 2) $result.=(($addlabel && $this->label) ? $sep . dol_trunc($this->label, ($addlabel > 1 ? $addlabel : 0)) : '');
 
@@ -1027,25 +1027,29 @@ class ImmoOwner extends CommonObjectUltimateImmo
 	 */
 	public function getFullName($langs, $option = 0, $nameorder = -1, $maxlen = 0)
 	{
-		//print "lastname=".$this->lastname." name=".$this->name." nom=".$this->nom."<br>\n";
-		$lastname = $this->lastname;
-		$firstname = $this->firstname;
-		if (empty($lastname)) {
-			$lastname = (isset($this->lastname) ? $this->lastname : (isset($this->name) ? $this->name : (isset($this->nom) ? $this->nom : (isset($this->societe) ? $this->societe : (isset($this->company) ? $this->company : '')))));
-		}
+        if(!empty($this->societe)){
+            return dol_string_nohtmltag(dol_trunc($this->societe, $maxlen));
+        }else{
+            //print "lastname=".$this->lastname." name=".$this->name." nom=".$this->nom."<br>\n";
+            $lastname = $this->lastname;
+            $firstname = $this->firstname;
+            if (empty($lastname)) {
+                $lastname = (isset($this->lastname) ? $this->lastname : (isset($this->name) ? $this->name : (isset($this->nom) ? $this->nom : (isset($this->societe) ? $this->societe : (isset($this->company) ? $this->company : '')))));
+            }
 
-		$ret = '';
-		if (!empty($option) && !empty($this->civility_code)) {
-			if ($langs->transnoentitiesnoconv("Civility".$this->civility_code) != "Civility".$this->civility_code) {
-				$ret .= $langs->transnoentitiesnoconv("Civility".$this->civility_code).' ';
-			} else {
-				$ret .= $this->civility_code.' ';
-			}
-		}
+            $ret = '';
+            if (!empty($option) && !empty($this->civility_code)) {
+                if ($langs->transnoentitiesnoconv("Civility".$this->civility_code) != "Civility".$this->civility_code) {
+                    $ret .= $langs->transnoentitiesnoconv("Civility".$this->civility_code).' ';
+                } else {
+                    $ret .= $this->civility_code.' ';
+                }
+            }
 
-		$ret .= dolGetFirstLastname($firstname, $lastname, $nameorder);
-
-		return dol_string_nohtmltag(dol_trunc($ret, $maxlen));
+            $ret .= dolGetFirstLastname($firstname, $lastname, $nameorder);
+            return dol_string_nohtmltag(dol_trunc($ret, $maxlen));
+        }
+		
 	}
 }
 
