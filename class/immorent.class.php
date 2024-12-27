@@ -91,7 +91,7 @@ class ImmoRent extends CommonObject
 		'fk_property'      => array('type'      => 'integer:ImmoProperty:ultimateimmo/class/immoproperty.class.php',
 									'label'     => 'Property', 'visible' => 1, 'enabled' => 1, 'position' => 25,
 									'notnull'   => -1, 'index' => 1, 'foreignkey' => 'ultimateimmo_immoproperty.rowid',
-									'searchall' => 1, 'help' => "LinkToProperty", 'showoncombobox' => 1,),
+									'searchall' => 1, 'help' => "LinkToProperty",),
 		'fk_owner'         => array('type'       => 'integer:ImmoOwner:ultimateimmo/class/immoowner.class.php',
 									'label'      => 'Owner', 'visible' => 1, 'enabled' => 1, 'position' => 30,
 									'notnull'    => -1, 'index' => 1, 'searchall' => 1,
