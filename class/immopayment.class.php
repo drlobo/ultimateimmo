@@ -594,6 +594,7 @@ class ImmoPayment extends CommonObject
 		$sql .= ' lc.lastname as nomlocataire,';
 		$sql .= ' ll.label as nomlocal,';
 		$sql .= ' lo.label as nomloyer,';
+		$sql .= ' t.fk_account as bankline,';
 		$sql .= ' b.fk_account';
 		$sql .= ' FROM ' . MAIN_DB_PREFIX . $this->table_element . ' as t';
 		$sql .= ' LEFT JOIN ' . MAIN_DB_PREFIX . 'ultimateimmo_immorenter as lc ON t.fk_renter = lc.rowid';
@@ -630,7 +631,7 @@ class ImmoPayment extends CommonObject
 					$this->fk_user_creat	= $obj->fk_user_creat;
 					$this->fk_user_modif	= $obj->fk_user_modif;
 					$this->bank_account		= $obj->fk_account;
-					$this->bank_line		= $obj->fk_account;
+					$this->bank_line		= $obj->bankline;
 
 					$this->date_payment = $this->db->jdate($obj->date_payment);
 
@@ -1005,12 +1006,11 @@ class ImmoPayment extends CommonObject
 					$error++;
 					dol_print_error($this->db);
 				}
-
 				// Add link 'payment', 'payment_supplier', 'immopayment' in bank_url between payment and bank transaction
 				$url = '';
-				if ($mode == 'immopayment') $url = dol_buildpath('/ultimateimmo/receipt/immoreceipt_card.php', 1) . '?id=' . $this->rowid;
+				if ($mode == 'immopayment') $url = dol_buildpath('/ultimateimmo/receipt/immoreceipt_card.php', 1) . '?id=';
 				if ($url) {
-					$result = $acc->add_url_line($bank_line_id, $this->id, $url, '(paiement)', $mode);
+					$result = $acc->add_url_line($bank_line_id, $this->fk_receipt, $url, '(paiement)', $mode);
 					if ($result <= 0) {
 						$error++;
 						dol_print_error($this->db);
