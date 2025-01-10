@@ -371,7 +371,7 @@ class pdf_quittance extends ModelePDFUltimateimmo
 				$sql .= " FROM " . MAIN_DB_PREFIX . "ultimateimmo_immopayment as p";
 				$sql .= ", " . MAIN_DB_PREFIX . "ultimateimmo_immoreceipt as il ";
 				$sql .= " WHERE p.fk_receipt = " . $object->id;
-				//$sql .= " AND p.fk_receipt = il.rowid";
+				$sql .= " AND p.fk_receipt = il.rowid";
 				$sql .= " GROUP by p.rowid,il.total_amount ";
 				$sql .= " ORDER BY dp DESC";
 
