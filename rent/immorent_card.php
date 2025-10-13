@@ -693,7 +693,7 @@ if ($object->id > 0 && (empty($action) || ($action != 'edit' && $action != 'crea
 				print '<a class="butActionRefused" href="#" title="'.dol_escape_htmltag($langs->trans("NotEnoughPermissions")).'">'.$langs->trans('Delete').'</a>'."\n";
 			}
 		}
-		if ($object->status==$object::STATUS_VALIDATED) {
+		if ($permissiontoadd && $object->status==$object::STATUS_VALIDATED) {
 			print '<a class="butAction" href="'.$_SERVER["PHP_SELF"].'?id='.$object->id.'&amp;action=revel_indice">'.$langs->trans("UIRevalIndice").'</a>'."\n";
 		}
 		print '</div>'."\n";

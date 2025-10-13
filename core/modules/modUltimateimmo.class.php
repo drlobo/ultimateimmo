@@ -549,7 +549,7 @@ class modUltimateimmo extends DolibarrModules
 			'position' => 1100 + $r,
 			'enabled' => '$conf->ultimateimmo->enabled',
 			// Define condition to show or hide menu entry. Use '$conf->ultimateimmo->enabled' if entry must be visible if module is enabled.
-			'perms' => '1',
+			'perms' => '$user->rights->ultimateimmo->read',
 			// Use 'perms'=>'$user->rights->ultimateimmo->level1->level2' if you want your menu with a permission rules
 			'target' => '',
 			'user' => 2
@@ -570,7 +570,7 @@ class modUltimateimmo extends DolibarrModules
 			'position' => 1100 + $r,
 			'enabled' => '$conf->ultimateimmo->enabled',
 			// Define condition to show or hide menu entry. Use '$conf->ultimateimmo->enabled' if entry must be visible if module is enabled. Use '$leftmenu==\'system\'' to show if leftmenu system is selected.
-			'perms' => '1',
+			'perms' => '$user->rights->ultimateimmo->read',
 			// Use 'perms'=>'$user->rights->ultimateimmo->level1->level2' if you want your menu with a permission rules
 			'target' => '',
 			'user' => 2
@@ -588,7 +588,7 @@ class modUltimateimmo extends DolibarrModules
 			'position' => 1100 + $r,
 			'enabled' => '$conf->ultimateimmo->enabled',
 			// Define condition to show or hide menu entry. Use '$conf->ultimateimmo->enabled' if entry must be visible if module is enabled. Use '$leftmenu==\'system\'' to show if leftmenu system is selected.
-			'perms' => '1',
+			'perms' => '$user->rights->ultimateimmo->write',
 			// Use 'perms'=>'$user->rights->ultimateimmo->level1->level2' if you want your menu with a permission rules
 			'target' => '',
 			'user' => 2
@@ -606,7 +606,7 @@ class modUltimateimmo extends DolibarrModules
 			'position' => 1100 + $r,
 			'enabled' => '$conf->ultimateimmo->enabled',
 			// Define condition to show or hide menu entry. Use '$conf->ultimateimmo->enabled' if entry must be visible if module is enabled. Use '$leftmenu==\'system\'' to show if leftmenu system is selected.
-			'perms' => '1',
+			'perms' => '$user->rights->ultimateimmo->read',
 			// Use 'perms'=>'$user->rights->ultimateimmo->level1->level2' if you want your menu with a permission rules
 			'target' => '',
 			'user' => 2
@@ -624,7 +624,7 @@ class modUltimateimmo extends DolibarrModules
 			'position' => 1100 + $r,
 			'enabled' => '$conf->ultimateimmo->enabled',
 			// Define condition to show or hide menu entry. Use '$conf->ultimateimmo->enabled' if entry must be visible if module is enabled. Use '$leftmenu==\'system\'' to show if leftmenu system is selected.
-			'perms' => '1',
+			'perms' => '$user->rights->ultimateimmo->write',
 			// Use 'perms'=>'$user->rights->ultimateimmo->level1->level2' if you want your menu with a permission rules
 			'target' => '',
 			'user' => 2
@@ -643,7 +643,7 @@ class modUltimateimmo extends DolibarrModules
 			'position' => 1100 + $r,
 			'enabled' => '$conf->ultimateimmo->enabled',
 			// Define condition to show or hide menu entry. Use '$conf->ultimateimmo->enabled' if entry must be visible if module is enabled. Use '$leftmenu==\'system\'' to show if leftmenu system is selected.
-			'perms' => '1',
+			'perms' => '$user->rights->ultimateimmo->read',
 			// Use 'perms'=>'$user->rights->ultimateimmo->level1->level2' if you want your menu with a permission rules
 			'target' => '',
 			'user' => 2
@@ -661,7 +661,7 @@ class modUltimateimmo extends DolibarrModules
 			'position' => 1100 + $r,
 			'enabled' => '$conf->ultimateimmo->enabled',
 			// Define condition to show or hide menu entry. Use '$conf->ultimateimmo->enabled' if entry must be visible if module is enabled. Use '$leftmenu==\'system\'' to show if leftmenu system is selected.
-			'perms' => '1',
+			'perms' => '$user->rights->ultimateimmo->write',
 			// Use 'perms'=>'$user->rights->ultimateimmo->level1->level2' if you want your menu with a permission rules
 			'target' => '',
 			'user' => 2
@@ -681,7 +681,7 @@ class modUltimateimmo extends DolibarrModules
 			'position' => 1100 + $r,
 			'enabled' => '$conf->ultimateimmo->enabled',
 			// Define condition to show or hide menu entry. Use '$conf->ultimateimmo->enabled' if entry must be visible if module is enabled. Use '$leftmenu==\'system\'' to show if leftmenu system is selected.
-			'perms' => '1',
+			'perms' => '$user->rights->ultimateimmo->read',
 			// Use 'perms'=>'$user->rights->ultimateimmo->level1->level2' if you want your menu with a permission rules
 			'target' => '',
 			'user' => 2
@@ -701,7 +701,7 @@ class modUltimateimmo extends DolibarrModules
 			'position' => 1100 + $r,
 			'enabled' => '$conf->ultimateimmo->enabled',
 			// Define condition to show or hide menu entry. Use '$conf->ultimateimmo->enabled' if entry must be visible if module is enabled. Use '$leftmenu==\'system\'' to show if leftmenu system is selected.
-			'perms' => '$user->rights->ultimateimmo->immocompteur->read',
+			'perms' => '$user->rights->ultimateimmo->read',
 			// Use 'perms'=>'$user->rights->ultimateimmo->level1->level2' if you want your menu with a permission rules
 			'target' => '',
 			'user' => 2
@@ -719,7 +719,7 @@ class modUltimateimmo extends DolibarrModules
 			'position' => 1100 + $r,
 			'enabled' => '$conf->ultimateimmo->enabled',
 			// Define condition to show or hide menu entry. Use '$conf->ultimateimmo->enabled' if entry must be visible if module is enabled. Use '$leftmenu==\'system\'' to show if leftmenu system is selected.
-			'perms' => '$user->rights->ultimateimmo->immocompteur->write',
+			'perms' => '$user->rights->ultimateimmo->write',
 			// Use 'perms'=>'$user->rights->ultimateimmo->level1->level2' if you want your menu with a permission rules
 			'target' => '',
 			'user' => 2
@@ -738,7 +738,7 @@ class modUltimateimmo extends DolibarrModules
 			'position' => 1100 + $r,
 			'enabled' => '$conf->ultimateimmo->enabled',
 			// Define condition to show or hide menu entry. Use '$conf->ultimateimmo->enabled' if entry must be visible if module is enabled. Use '$leftmenu==\'system\'' to show if leftmenu system is selected.
-			'perms' => '$user->rights->ultimateimmo->immocompteur->read',
+			'perms' => '$user->rights->ultimateimmo->read',
 			// Use 'perms'=>'$user->rights->ultimateimmo->level1->level2' if you want your menu with a permission rules
 			'target' => '',
 			'user' => 2
@@ -756,7 +756,7 @@ class modUltimateimmo extends DolibarrModules
 			'position' => 1100 + $r,
 			'enabled' => '$conf->ultimateimmo->enabled',
 			// Define condition to show or hide menu entry. Use '$conf->ultimateimmo->enabled' if entry must be visible if module is enabled. Use '$leftmenu==\'system\'' to show if leftmenu system is selected.
-			'perms' => '$user->rights->ultimateimmo->immocompteur->read',
+			'perms' => '$user->rights->ultimateimmo->read',
 			// Use 'perms'=>'$user->rights->ultimateimmo->level1->level2' if you want your menu with a permission rules
 			'target' => '',
 			'user' => 2
@@ -774,7 +774,7 @@ class modUltimateimmo extends DolibarrModules
 			'position' => 1100 + $r,
 			'enabled' => '$conf->ultimateimmo->enabled',
 			// Define condition to show or hide menu entry. Use '$conf->ultimateimmo->enabled' if entry must be visible if module is enabled. Use '$leftmenu==\'system\'' to show if leftmenu system is selected.
-			'perms' => '$user->rights->ultimateimmo->immocompteur->read',
+			'perms' => '$user->rights->ultimateimmo->read',
 			// Use 'perms'=>'$user->rights->ultimateimmo->level1->level2' if you want your menu with a permission rules
 			'target' => '',
 			'user' => 2
@@ -794,7 +794,7 @@ class modUltimateimmo extends DolibarrModules
 			'position' => 1100 + $r,
 			'enabled' => '$conf->ultimateimmo->enabled',
 			// Define condition to show or hide menu entry. Use '$conf->ultimateimmo->enabled' if entry must be visible if module is enabled. Use '$leftmenu==\'system\'' to show if leftmenu system is selected.
-			'perms' => '1',
+			'perms' => '$user->rights->ultimateimmo->read',
 			// Use 'perms'=>'$user->rights->ultimateimmo->level1->level2' if you want your menu with a permission rules
 			'target' => '',
 			'user' => 2
@@ -812,7 +812,7 @@ class modUltimateimmo extends DolibarrModules
 			'position' => 1100 + $r,
 			'enabled' => '$conf->ultimateimmo->enabled',
 			// Define condition to show or hide menu entry. Use '$conf->ultimateimmo->enabled' if entry must be visible if module is enabled. Use '$leftmenu==\'system\'' to show if leftmenu system is selected.
-			'perms' => '1',
+			'perms' => '$user->rights->ultimateimmo->write',
 			// Use 'perms'=>'$user->rights->ultimateimmo->level1->level2' if you want your menu with a permission rules
 			'target' => '',
 			'user' => 2
@@ -835,7 +835,7 @@ class modUltimateimmo extends DolibarrModules
 			'position' => 1100 + $r,
 			'enabled' => '$conf->ultimateimmo->enabled',
 			// Define condition to show or hide menu entry. Use '$conf->ultimateimmo->enabled' if entry must be visible if module is enabled. Use '$leftmenu==\'system\'' to show if leftmenu system is selected.
-			'perms' => '1',
+			'perms' => '$user->rights->ultimateimmo->read',
 			// Use 'perms'=>'$user->rights->ultimateimmo->level1->level2' if you want your menu with a permission rules
 			'target' => '',
 			'user' => 2
@@ -853,7 +853,7 @@ class modUltimateimmo extends DolibarrModules
 			'position' => 1100 + $r,
 			'enabled' => '$conf->ultimateimmo->enabled',
 			// Define condition to show or hide menu entry. Use '$conf->ultimateimmo->enabled' if entry must be visible if module is enabled. Use '$leftmenu==\'system\'' to show if leftmenu system is selected.
-			'perms' => '1',
+			'perms' => '$user->rights->ultimateimmo->write',
 			// Use 'perms'=>'$user->rights->ultimateimmo->level1->level2' if you want your menu with a permission rules
 			'target' => '',
 			'user' => 2
@@ -875,7 +875,7 @@ class modUltimateimmo extends DolibarrModules
 			'position' => 1100 + $r,
 			'enabled' => '$conf->ultimateimmo->enabled',
 			// Define condition to show or hide menu entry. Use '$conf->ultimateimmo->enabled' if entry must be visible if module is enabled. Use '$leftmenu==\'system\'' to show if leftmenu system is selected.
-			'perms' => '1',
+			'perms' => '$user->rights->ultimateimmo->read',
 			// Use 'perms'=>'$user->rights->ultimateimmo->level1->level2' if you want your menu with a permission rules
 			'target' => '',
 			'user' => 2
@@ -895,7 +895,7 @@ class modUltimateimmo extends DolibarrModules
 			'position' => 1100 + $r,
 			'enabled' => '$conf->ultimateimmo->enabled',
 			// Define condition to show or hide menu entry. Use '$conf->ultimateimmo->enabled' if entry must be visible if module is enabled. Use '$leftmenu==\'system\'' to show if leftmenu system is selected.
-			'perms' => '1',
+			'perms' => '$user->rights->ultimateimmo->write',
 			// Use 'perms'=>'$user->rights->ultimateimmo->level1->level2' if you want your menu with a permission rules
 			'target' => '',
 			'user' => 2
@@ -914,7 +914,7 @@ class modUltimateimmo extends DolibarrModules
 			'position' => 1100 + $r,
 			'enabled' => '$conf->ultimateimmo->enabled',
 			// Define condition to show or hide menu entry. Use '$conf->ultimateimmo->enabled' if entry must be visible if module is enabled. Use '$leftmenu==\'system\'' to show if leftmenu system is selected.
-			'perms' => '1',
+			'perms' => '$user->rights->ultimateimmo->write',
 			// Use 'perms'=>'$user->rights->ultimateimmo->level1->level2' if you want your menu with a permission rules
 			'target' => '',
 			'user' => 2
@@ -933,7 +933,7 @@ class modUltimateimmo extends DolibarrModules
 			'position' => 1100 + $r,
 			'enabled' => '$conf->ultimateimmo->enabled',
 			// Define condition to show or hide menu entry. Use '$conf->ultimateimmo->enabled' if entry must be visible if module is enabled. Use '$leftmenu==\'system\'' to show if leftmenu system is selected.
-			'perms' => '1',
+			'perms' => '$user->rights->ultimateimmo->read',
 			// Use 'perms'=>'$user->rights->ultimateimmo->level1->level2' if you want your menu with a permission rules
 			'target' => '',
 			'user' => 2
@@ -952,7 +952,7 @@ class modUltimateimmo extends DolibarrModules
 			'position' => 1100 + $r,
 			'enabled' => '$conf->ultimateimmo->enabled',
 			// Define condition to show or hide menu entry. Use '$conf->ultimateimmo->enabled' if entry must be visible if module is enabled. Use '$leftmenu==\'system\'' to show if leftmenu system is selected.
-			'perms' => '1',
+			'perms' => '$user->rights->ultimateimmo->read',
 			// Use 'perms'=>'$user->rights->ultimateimmo->level1->level2' if you want your menu with a permission rules
 			'target' => '',
 			'user' => 2
@@ -970,7 +970,7 @@ class modUltimateimmo extends DolibarrModules
 			'position' => 1100 + $r,
 			'enabled' => '$conf->ultimateimmo->enabled',
 			// Define condition to show or hide menu entry. Use '$conf->ultimateimmo->enabled' if entry must be visible if module is enabled. Use '$leftmenu==\'system\'' to show if leftmenu system is selected.
-			'perms' => '1',
+			'perms' => '$user->rights->ultimateimmo->write',
 			// Use 'perms'=>'$user->rights->ultimateimmo->level1->level2' if you want your menu with a permission rules
 			'target' => '',
 			'user' => 2
@@ -988,7 +988,7 @@ class modUltimateimmo extends DolibarrModules
 			'position' => 1100 + $r,
 			'enabled' => '$conf->ultimateimmo->enabled',
 			// Define condition to show or hide menu entry. Use '$conf->ultimateimmo->enabled' if entry must be visible if module is enabled. Use '$leftmenu==\'system\'' to show if leftmenu system is selected.
-			'perms' => '1',
+			'perms' => '$user->rights->ultimateimmo->read',
 			// Use 'perms'=>'$user->rights->ultimateimmo->level1->level2' if you want your menu with a permission rules
 			'target' => '',
 			'user' => 2
@@ -1007,7 +1007,7 @@ class modUltimateimmo extends DolibarrModules
 			'position' => 1100 + $r,
 			'enabled' => '$conf->ultimateimmo->enabled',
 			// Define condition to show or hide menu entry. Use '$conf->ultimateimmo->enabled' if entry must be visible if module is enabled. Use '$leftmenu==\'system\'' to show if leftmenu system is selected.
-			'perms' => '1',
+			'perms' => '$user->right->ultimateimmo->read',
 			// Use 'perms'=>'$user->rights->ultimateimmo->level1->level2' if you want your menu with a permission rules
 			'target' => '',
 			'user' => 2
@@ -1026,7 +1026,7 @@ class modUltimateimmo extends DolibarrModules
 			'position' => 1100 + $r,
 			'enabled' => '$conf->ultimateimmo->enabled',
 			// Define condition to show or hide menu entry. Use '$conf->ultimateimmo->enabled' if entry must be visible if module is enabled. Use '$leftmenu==\'system\'' to show if leftmenu system is selected.
-			'perms' => '1',
+			'perms' => '$user->rights->ultimateimmo->read',
 			// Use 'perms'=>'$user->rights->ultimateimmo->level1->level2' if you want your menu with a permission rules
 			'target' => '',
 			'user' => 2
@@ -1044,7 +1044,7 @@ class modUltimateimmo extends DolibarrModules
 			'position' => 1100 + $r,
 			'enabled' => '$conf->ultimateimmo->enabled',
 			// Define condition to show or hide menu entry. Use '$conf->ultimateimmo->enabled' if entry must be visible if module is enabled. Use '$leftmenu==\'system\'' to show if leftmenu system is selected.
-			'perms' => '1',
+			'perms' => '$user->rights->ultimateimmo->write',
 			// Use 'perms'=>'$user->rights->ultimateimmo->level1->level2' if you want your menu with a permission rules
 			'target' => '',
 			'user' => 2
@@ -1063,7 +1063,7 @@ class modUltimateimmo extends DolibarrModules
 			'position' => 1100 + $r,
 			'enabled' => '$conf->ultimateimmo->enabled',
 			// Define condition to show or hide menu entry. Use '$conf->ultimateimmo->enabled' if entry must be visible if module is enabled. Use '$leftmenu==\'system\'' to show if leftmenu system is selected.
-			'perms' => '1',
+			'perms' => '$user->rights->ultimateimmo->read',
 			// Use 'perms'=>'$user->rights->ultimateimmo->level1->level2' if you want your menu with a permission rules
 			'target' => '',
 			'user' => 2
@@ -1083,7 +1083,7 @@ class modUltimateimmo extends DolibarrModules
 			'position' => 1100 + $r,
 			'enabled' => '$conf->ultimateimmo->enabled',
 			// Define condition to show or hide menu entry. Use '$conf->ultimateimmo->enabled' if entry must be visible if module is enabled. Use '$leftmenu==\'system\'' to show if leftmenu system is selected.
-			'perms' => '1',
+			'perms' => '$user->rights->ultimateimmo->read',
 			// Use 'perms'=>'$user->rights->ultimateimmo->level1->level2' if you want your menu with a permission rules
 			'target' => '',
 			'user' => 2
@@ -1102,7 +1102,7 @@ class modUltimateimmo extends DolibarrModules
 			'position' => 1100 + $r,
 			'enabled' => '$conf->ultimateimmo->enabled',
 			// Define condition to show or hide menu entry. Use '$conf->ultimateimmo->enabled' if entry must be visible if module is enabled. Use '$leftmenu==\'system\'' to show if leftmenu system is selected.
-			'perms' => '1',
+			'perms' => '$user->rights->ultimateimmo->read',
 			// Use 'perms'=>'$user->rights->ultimateimmo->level1->level2' if you want your menu with a permission rules
 			'target' => '',
 			'user' => 2
@@ -1121,7 +1121,7 @@ class modUltimateimmo extends DolibarrModules
 			'position' => 1100 + $r,
 			'enabled' => '$conf->ultimateimmo->enabled',
 			// Define condition to show or hide menu entry. Use '$conf->ultimateimmo->enabled' if entry must be visible if module is enabled. Use '$leftmenu==\'system\'' to show if leftmenu system is selected.
-			'perms' => '1',
+			'perms' => '$user->rights->ultimateimmo->write',
 			// Use 'perms'=>'$user->rights->ultimateimmo->level1->level2' if you want your menu with a permission rules
 			'target' => '',
 			'user' => 2
@@ -1141,7 +1141,7 @@ class modUltimateimmo extends DolibarrModules
 			'position' => 1100 + $r,
 			'enabled' => '$conf->ultimateimmo->enabled',
 			// Define condition to show or hide menu entry. Use '$conf->ultimateimmo->enabled' if entry must be visible if module is enabled. Use '$leftmenu==\'system\'' to show if leftmenu system is selected.
-			'perms' => '1',
+			'perms' => '$user->rights->ultimateimmo->read',
 			// Use 'perms'=>'$user->rights->ultimateimmo->level1->level2' if you want your menu with a permission rules
 			'target' => '',
 			'user' => 2
@@ -1160,7 +1160,7 @@ class modUltimateimmo extends DolibarrModules
 			'position' => 1100 + $r,
 			'enabled' => '$conf->ultimateimmo->enabled',
 			// Define condition to show or hide menu entry. Use '$conf->ultimateimmo->enabled' if entry must be visible if module is enabled. Use '$leftmenu==\'system\'' to show if leftmenu system is selected.
-			'perms' => '1',
+			'perms' => '$user->rights->ultimateimmo->write',
 			// Use 'perms'=>'$user->rights->ultimateimmo->level1->level2' if you want your menu with a permission rules
 			'target' => '',
 			'user' => 2
