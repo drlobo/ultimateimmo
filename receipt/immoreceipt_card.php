@@ -982,8 +982,9 @@ if ($object->id > 0 && (empty($action) || ($action != 'edit' && $action != 'crea
 			setEventMessages($rent->error, $rent->errors, 'errors');
 		} else {
 			$dt_startCpt = array();
+			$date_last_regul_charge = (!empty($rent->date_last_regul_charge)) ? $rent->date_last_regul_charge : $rent->date_start;
 			$sql = "SELECT DISTINCT date_relever FROM " . MAIN_DB_PREFIX . "ultimateimmo_immocompteur WHERE fk_immoproperty=" . (int)$rent->fk_property;
-			$sql .= " AND date_relever>='" . $db->idate($rent->date_last_regul_charge) . "'";
+			$sql .= " AND date_relever>='" . $db->idate($date_last_regul_charge) . "'";
 
 			$resql = $db->query($sql);
 			if (!$resql) {
