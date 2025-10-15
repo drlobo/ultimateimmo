@@ -1010,7 +1010,7 @@ class ImmoPayment extends CommonObject
 				$url = '';
 				if ($mode == 'immopayment') $url = dol_buildpath('/ultimateimmo/receipt/immoreceipt_card.php', 1) . '?id=';
 				if ($url) {
-					$result = $acc->add_url_line($bank_line_id, $this->fk_receipt, $url, '(paiement)', $mode);
+					$result = $acc->add_url_line($bank_line_id, $this->fk_receipt, $url, 'Loyer', $mode);
 					if ($result <= 0) {
 						$error++;
 						dol_print_error($this->db);
