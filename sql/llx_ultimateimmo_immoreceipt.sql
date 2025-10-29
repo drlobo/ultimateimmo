@@ -32,6 +32,7 @@ CREATE TABLE IF NOT EXISTS llx_ultimateimmo_immoreceipt (
    date_echeance datetime DEFAULT NULL,
    rentamount double(24,8) DEFAULT NULL,
    chargesamount double(24,8) DEFAULT NULL,
+   charges_adjustment_amount double(24,8) DEFAULT NULL,
    total_amount double(24,8) DEFAULT NULL,
    balance double(24,8) DEFAULT NULL,
    partial_payment double(24,8) DEFAULT NULL,

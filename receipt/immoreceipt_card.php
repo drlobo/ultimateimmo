@@ -152,7 +152,7 @@ if (empty($reshook)) {
 			}
 		}
 		$newCharge = price2num($chargeAmount) - $totalChargeAllocated;
-		$object->chargesamount = $newCharge;
+		$object->charges_adjustment_amount = $newCharge;
 		$object->note_private = $langs->trans('NoteRegulCharge', dol_print_date($dt_start), dol_print_date($dt_end), price($totalChargeAllocated) . ' €');
 		$object->note_private = dol_concatdesc($object->note_private, $langs->trans('NoteRegulTotalCharge', $chargeAmount) . ' €');
 		$object->note_private = dol_concatdesc($object->note_private, $langs->trans('NoteRegulLetToPaid', $newCharge) . ' €');
@@ -348,6 +348,7 @@ if (empty($reshook)) {
 		$object->date_validation = GETPOST("date_validation");
 		$object->rentamount = GETPOST("rentamount");
 		$object->chargesamount = GETPOST("chargesamount");
+		$object->charges_adjustment_amount = GETPOST("charges_adjustment_amount");
 		$object->partial_payment = GETPOST("partial_payment");
 		$object->fk_payment = GETPOST("fk_payment");
 		$object->paye = GETPOST("paye");
@@ -489,18 +490,21 @@ if (empty($reshook)) {
 		if ($receipt->vat_tx != 0) {
 			$rentamount = price2num(GETPOST("rentamount"));
 			$chargesamount = price2num(GETPOST("chargesamount"));
-			$receipt->total_amount = ($rentamount + $chargesamount) * 1.2;
+			$charges_adjustment_amount = price2num(GETPOST("charges_adjustment_amount"));
+			$receipt->total_amount = ($rentamount + $chargesamount + $charges_adjustment_amount) * 1.2;
 		} else {
 			$rentamount = price2num(GETPOST("rentamount"));
 			$chargesamount = price2num(GETPOST("chargesamount"));
-			$receipt->total_amount = $rentamount + $chargesamount;
+			$charges_adjustment_amount = price2num(GETPOST("charges_adjustment_amount"));
+			$receipt->total_amount = $rentamount + $chargesamount + $charges_adjustment_amount;
 		}
 		$receipt->rentamount = GETPOST("rentamount");
 		$receipt->chargesamount = GETPOST("chargesamount");
 		if ($receipt->vat_tx != 0) {
 			$rentamount = price2num(GETPOST("rentamount"));
 			$chargesamount = price2num(GETPOST("chargesamount"));
-			$receipt->vat_amount = ($rentamount + $chargesamount) * 0.2;
+			$charges_adjustment_amount = price2num(GETPOST("charges_adjustment_amount"));
+			$receipt->vat_amount = ($rentamount + $chargesamount + $charges_adjustment_amount) * 0.2;
 		} else {
 			$receipt->vat_amount = 0;
 		}
@@ -532,21 +536,21 @@ if (empty($reshook)) {
 	include DOL_DOCUMENT_ROOT . '/core/actions_builddoc.inc.php';
 
 	// Build doc
-	if ($action == 'builddoc' && $permissiontoadd) {
-		// Save last template used to generate document
-		if (GETPOST('model')) $object->setDocModel($user, GETPOST('model', 'alpha'));
+	// if ($action == 'builddoc' && $permissiontoadd) {
+	// 	// Save last template used to generate document
+	// 	if (GETPOST('model')) $object->setDocModel($user, GETPOST('model', 'alpha'));
 
-		$outputlangs = $langs;
-		if (GETPOST('lang_id', 'aZ09')) {
-			$outputlangs = new Translate("", $conf);
-			$outputlangs->setDefaultLang(GETPOST('lang_id', 'aZ09'));
-		}
-		$result = $object->generateDocument($object->model_pdf, $outputlangs);
-		if ($result <= 0) {
-			setEventMessages($object->error, $object->errors, 'errors');
-			$action = '';
-		}
-	}
+	// 	$outputlangs = $langs;
+	// 	if (GETPOST('lang_id', 'aZ09')) {
+	// 		$outputlangs = new Translate("", $conf);
+	// 		$outputlangs->setDefaultLang(GETPOST('lang_id', 'aZ09'));
+	// 	}
+	// 	$result = $object->generateDocument($object->model_pdf, $outputlangs);
+	// 	if ($result <= 0) {
+	// 		setEventMessages($object->error, $object->errors, 'errors');
+	// 		$action = '';
+	// 	}
+	// }
 
 	if ($action == 'set_thirdparty' && $permissiontoadd) {
 		$object->setValueFrom('fk_soc', GETPOST('fk_soc', 'int'), '', '', 'date', '', $user, 'IMMORECEIPT_MODIFY');
@@ -729,7 +733,7 @@ if ($action == 'createall') {
 	 * List of contracts
 	 */
 	$sql = "SELECT rent.rowid as contractid, rent.ref as contract, loc.lastname as rentername, own.lastname as ownername, own.firstname as ownerfirstname, prop.ref as
-	localref, prop.address, prop.label as local, rent.totalamount as total, rent.rentamount , rent.chargesamount,
+	localref, prop.address, prop.label as local, rent.totalamount as total, rent.rentamount , rent.chargesamount,rent.charges_adjustment_amount,
 	rent.fk_renter as reflocataire, rent.fk_property as reflocal, rent.preavis as preavis,
 	rent.vat, prop.fk_owner, own.rowid, own.fk_soc, prop.fk_owner, rent.periode";
 	$sql .= " FROM " . MAIN_DB_PREFIX . "ultimateimmo_immorenter as loc";
@@ -776,6 +780,7 @@ if ($action == 'createall') {
 		print '<td>' . $langs->trans('OwnerFirstName') . '</td>';
 		print '<td class="right">' . $langs->trans('RentAmount') . '</td>';
 		print '<td class="right">' . $langs->trans('ChargesAmount') . '</td>';
+		print '<td class="right">' . $langs->trans('ChargesAdjustmentAmount') . '</td>';
 		print '<td class="right">' . $langs->trans('TotalAmount') . '</td>';
 		print '<td class="right">' . $langs->trans('VATIsUsed') . '</td>';
 		print '<td class="right">' . $langs->trans('Select');
@@ -804,6 +809,7 @@ if ($action == 'createall') {
 
 				print '<td class="right">' . price($objp->rentamount) . '</td>';
 				print '<td class="right">' . price($objp->chargesamount) . '</td>';
+				print '<td class="right">' . price($objp->charges_adjustment_amount) . '</td>';
 				print '<td class="right">' . price($objp->total) . '</td>';
 				print '<td class="right">' . yn($objp->vat) . '</td>';
 

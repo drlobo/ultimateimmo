@@ -135,6 +135,7 @@ class ImmoReceipt extends CommonObject
 		'label'         => array('type' => 'varchar(255)', 'label' => 'Label', 'enabled' => 1, 'visible' => 1, 'position' => 30, 'searchall' => 1, 'css' => 'minwidth200', 'help' => 'ImmoPaymentLabelInfo', 'showoncombobox' => 1),
 		'rentamount'    => array('type' => 'price', 'label' => 'RentAmount', 'enabled' => 1, 'visible' => 1, 'position' => 65, 'notnull' => -1, 'isameasure' => '1', 'help' => 'ImmoPaymentRentAmountInfo'),
 		'chargesamount' => array('type' => 'price', 'label' => 'ChargesAmount', 'enabled' => 1, 'visible' => 1, 'position' => 70, 'notnull' => -1, 'isameasure' => '1', 'help' => 'ImmoPaymentChargeAmountInfo'),
+		'charges_adjustment_amount' => array('type' => 'price', 'label' => 'ChargesAdjustmentAmount', 'enabled' => 1, 'visible' => 1, 'position' => 72, 'notnull' => -1, 'isameasure' => '1', 'help' => 'ImmoPaymentChargesAdjustmentAmountInfo'),
 		'total_amount'  => array('type' => 'price', 'label' => 'TotalAmount', 'enabled' => 1, 'visible' => 5, 'default' => 'null', 'position' => 75, 'searchall' => 0, 'isameasure' => 1, 'help' => 'ImmoPaymentTotalAmountInfo'),
 		'partial_payment' => array('type' => 'price', 'label' => 'PartialPayment', 'enabled' => 1, 'visible' => 5, 'position' => 80, 'notnull' => -1, 'default' => 'null', 'isameasure' => 1, 'help' => "Help text for partial payment"),
 		'balance'       => array('type' => 'price', 'label' => 'Balance', 'enabled' => 1, 'visible' => 5, 'position' => 85, 'notnull' => -1, 'default' => 'null', 'isameasure' => 1, 'help' => "Help text"),
@@ -221,6 +222,8 @@ class ImmoReceipt extends CommonObject
 	public $rentamount;
 
 	public $chargesamount;
+
+	public $charges_adjustment_amount;
 
 	public $total_amount;
 
@@ -487,7 +490,7 @@ class ImmoReceipt extends CommonObject
 	 */
 	public function create(User $user, $notrigger = false)
 	{
-		$this->total_amount = (float)$this->rentamount + (float)$this->chargesamount;
+		$this->total_amount = (float)$this->rentamount + (float)$this->chargesamount + (float)$this->charges_adjustment_amount;
 		return $this->createCommon($user, $notrigger);
 	}
 
@@ -820,7 +823,7 @@ class ImmoReceipt extends CommonObject
 	public function fetchByLocalId($id, $filter=array())
 	{
 		$sql = "SELECT il.rowid as reference, il.fk_rent , il.fk_property, il.label as nomrenter, il.fk_renter, il.total_amount,";
-		$sql .= " il.rentamount, il.chargesamount, il.date_echeance, il.note_public, il.status, il.paye ,";
+		$sql .= " il.rentamount, il.chargesamount, il.charges_adjustment_amount, il.date_echeance, il.note_public, il.status, il.paye ,";
 		$sql .= " il.date_start , il.date_end, il.fk_owner, il.partial_payment ";
 		$sql .= " , lc.firstname as nomlocataire , ll.label as nomlocal ";
 		$sql .= " FROM " . MAIN_DB_PREFIX . $this->table_element." as il ";
@@ -862,6 +865,7 @@ class ImmoReceipt extends CommonObject
 				$line->total_amount = $obj->total_amount;
 				$line->rentamount = $obj->rentamount;
 				$line->chargesamount = $obj->chargesamount;
+				$line->charges_adjustment_amount = $obj->charges_adjustment_amount;
 				$line->date_echeance = $this->db->jdate ( $obj->date_echeance );
 				$line->note_public = $obj->note_public;
 				$line->status = $obj->status;
@@ -895,7 +899,7 @@ class ImmoReceipt extends CommonObject
 	 */
 	public function update(User $user, $notrigger = false)
 	{
-		$this->total_amount = (float)$this->rentamount + (float)$this->chargesamount;
+		$this->total_amount = (float)$this->rentamount + (float)$this->chargesamount + (float)$this->charges_adjustment_amount;
 		return $this->updateCommon($user, $notrigger);
 	}
 
@@ -1338,6 +1342,7 @@ class ImmoReceipt extends CommonObject
 			$line->total_amount = 1000;
 			$line->rentamount = 800;
 			$line->chargesamount = 200;
+			$line->charges_adjustment_amount = 50;
 			$line->date_echeance = $this->db->jdate($now);
 			$line->note_public = 'blablabla';
 			$line->date_start = $this->db->jdate($now);
@@ -1455,6 +1460,7 @@ class ImmoreceiptLine
 	public $partial_payment;
 	public $fk_payment;
 	public $chargesamount;
+	public $charges_adjustment_amount;
 	public $vat_amount;
 	public $date_echeance = '';
 	public $note_public;

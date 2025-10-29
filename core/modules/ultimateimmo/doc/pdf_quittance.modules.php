@@ -362,6 +362,12 @@ class pdf_quittance extends ModelePDFUltimateimmo
 				$text .= '<td> ' . chr(127) . ' Charges / Provisions de Charges</td>';
 				$text .= '<td align="right">' . price($object->chargesamount, 0, $outputlangs, 1, -1, -1, $conf->currency) . '</td>';
 				$text .= '</tr>';
+				if ($object->charges_adjustment_amount > 0.0) {
+					$text .= '<tr>';
+					$text .= '<td> ' . chr(127) . ' Régulation de Charges</td>';
+					$text .= '<td align="right">' . price($object->charges_adjustment_amount, 0, $outputlangs, 1, -1, -1, $conf->currency) . '</td>';
+					$text .= '</tr>';
+				}
 				$text .= '<tr>';
 				$text .= '<td> ' . chr(127) . ' Montant total du terme</td>';
 				$text .= '<td align="right">' . price($object->total_amount, 0, $outputlangs, 1, -1, -1, $conf->currency) . '</td>';

@@ -1196,6 +1196,7 @@ class modUltimateimmo extends DolibarrModules
 		// 			(0, 'STATUS_DRAFT', '" . $langs->trans("Draft") . "', 1),
 		// 			(1, 'STATUS_VALIDATED', '" . $langs->trans("Validate") . "', 1);"
 		// );
+		$this->updateDatabaseStructure();
 
 		// Document templates
 		$moduledir = 'ultimateimmo';
@@ -1244,5 +1245,41 @@ class modUltimateimmo extends DolibarrModules
 	{
 		$sql = array();
 		return $this->_remove($sql, $options);
+	}
+	private function updateDatabaseStructure()
+	{
+		global $db;
+		$table = MAIN_DB_PREFIX."ultimateimmo_immoreceipt";
+		$field = "charges_adjustment_amount";
+		$type = "NUMERIC(24,8)";
+		$default = "DEFAULT NULL";
+
+		$colExists = false;
+
+		$sgbd = $db->type;  // 'mysqli', 'pgsql', 'mysql', etc.
+
+		if ($sgbd == 'pgsql') {
+			$sql = "SELECT column_name
+					FROM information_schema.columns 
+					WHERE table_name = '".$table."'
+					AND column_name = '".$field."'";
+		} else {
+			// MySQL/MariaDB
+			$sql = "SHOW COLUMNS FROM ".$table." LIKE '".$field."'";
+		}
+
+		$resql = $db->query($sql);
+		if ($resql) {
+			if ($db->num_rows($resql) > 0) $colExists = true;
+			$db->free($resql);
+		}
+		if (!$colExists) {
+			if ($sgbd == 'pgsql') {
+				$sql = "ALTER TABLE ".$table." ADD COLUMN ".$field." ".$type;
+			} else {
+				$sql = "ALTER TABLE ".$table." ADD COLUMN ".$field." ".$type." ".$default;
+			}
+			$db->query($sql);
+		}
 	}
 }
